@@ -6,6 +6,7 @@ use PDO;
 
 class DatabaseController
 {
+    protected PDO $pdo;
     protected string $host;
     protected string $database;
     protected string $user;
@@ -35,12 +36,21 @@ class DatabaseController
     {
         $connection = "mysql:host=$this->host;dbname=$this->database;charset=$this->charset";
 
-        var_dump($connection);
-
         try {
-            $pdo = new PDO($connection, $this->user, $this->password, $this->options);
+            $this->pdo = new PDO($connection, $this->user, $this->password, $this->options);
         } catch (\PDOException $e) {
+            // TODO:
+            // Mejorar error
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
+    }
+
+    public function select(string $query, array $params = [])
+    {
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute($params);
+        $result = $stmt->fetchAll();
+
+        return $result;
     }
 }

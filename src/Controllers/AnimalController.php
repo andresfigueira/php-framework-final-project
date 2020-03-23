@@ -8,6 +8,10 @@ class AnimalController extends SecurityController
 {
     public function index()
     {
-        return new Response('layout.php', ['test' => 'test']);
+        $db = new DatabaseController();
+
+        $animals = $db->select('SELECT * FROM animal');
+
+        return new Response('layout.php', ['animals' => $animals]);
     }
 }

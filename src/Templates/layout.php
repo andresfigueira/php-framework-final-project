@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <?php echo 'LAYOUT PHP: ' . $test; ?>
+    <?php var_dump('LAYOUT PHP: ', $animals); ?>
 </body>
 
 </html>
