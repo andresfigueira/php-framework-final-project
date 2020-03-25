@@ -13,19 +13,20 @@ class Router
 
     public function __construct()
     {
-        $this->request = RouteHelper::parseRequest($_SERVER['REQUEST_URI']);
+        $this->request = RouteHelper::parseRequest($_SERVER['PATH_INFO'] or $_SERVER['REQUEST_URI']);
         $this->method = $_SERVER['REQUEST_METHOD'];
 
         $this->generateRoutes();
     }
 
-    public function generateRoutes()
+    public function generateRoutes(): void
     {
         foreach (ROUTES as $route) {
             $url = $route['url'];
             $methods = $route['methods'];
             $controller = $route['controller'];
             $action = $route['action'];
+            $parameters = array_key_exists('parameters', $route) ? $route['parameters'] : [];
 
             // TODO: 
             // Catch if class or method not found
@@ -38,27 +39,33 @@ class Router
                     $class->{$action}();
                 };
 
-                $this->addRoute($url, $method, $callback);
+                $this->addRoute($url, $method, $parameters, $callback);
             }
         }
     }
 
-    public function addRoute(string $uri, string $method, \Closure $fn): void
+    public function addRoute(string $url, string $method, array $parameters, \Closure $fn): void
     {
-        $this->routes[$uri][$method] = $fn;
+        $this->routes[$url][$method] = [
+            'function' => $fn,
+            'parameters' => $parameters,
+        ];
     }
 
-    public function hasRoute(string $uri): bool
+    public function hasRoute(string $url, string $method): bool
     {
-        // TODO:
-        // Add method as key
-        return array_key_exists($uri, $this->routes);
+        return array_key_exists($url, $this->routes)
+            and array_key_exists($method, $this->routes[$url]);
     }
 
-    public function run()
+    public function run(): void
     {
-        if ($this->hasRoute($this->request)) {
-            $this->routes[$this->request][$this->method]->call($this);
+        if ($this->hasRoute($this->request, $this->method)) {
+            $this->routes[$this->request][$this->method]['function']->call($this);
+        } else {
+            // TODO:
+            // Add 404 error page
+            var_dump('404');
         }
     }
 }

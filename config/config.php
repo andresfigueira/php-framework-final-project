@@ -21,16 +21,6 @@ function getGlobalConfig()
                 'charset' => 'utf8'
             ]
         ],
-        'urls' => [
-            // 'baseUrl' => 'http://example.com'
-        ],
-        'paths' => [
-            'resources' => '/path/to/resources',
-            'images' => [
-                'content' => ROOT . '/images/content',
-                'layout' => ROOT . '/images/layout'
-            ]
-        ]
     ];
 }
 

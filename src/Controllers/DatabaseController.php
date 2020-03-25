@@ -4,6 +4,8 @@ namespace Controllers;
 
 use PDO;
 
+use function Resources\dd;
+
 class DatabaseController
 {
     protected PDO $pdo;
@@ -49,8 +51,24 @@ class DatabaseController
     {
         $stmt = $this->pdo->prepare($query);
         $stmt->execute($params);
-        $result = $stmt->fetchAll();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return $result;
+    }
+
+    public function selectOne(string $query, array $params = [])
+    {
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute($params);
+        $result = $stmt->fetch();
+
+        return $result;
+    }
+
+    public function query(string $query, array $params = [])
+    {
+        return $this->pdo
+            ->prepare($query)
+            ->execute($params);
     }
 }
