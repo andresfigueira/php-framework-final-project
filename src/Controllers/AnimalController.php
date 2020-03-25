@@ -28,6 +28,6 @@ class AnimalController extends SecurityController
 
     public function create()
     {
-        echo 'HOLA y ADIOS';
+        echo 'HOLA y ADIOS...';
     }
 }
