@@ -1,14 +1,13 @@
 <?php
 
-namespace Resources\Helpers;
+namespace Core\Helpers;
 
-use function Resources\dd;
+use function Core\dd;
 
 class RouteHelper
 {
     public static function parseRequest(string $request): string
     {
-        dd($request);
         $request = preg_replace("/(\/)\\1+/", "$1", $request);
 
         if ($request !== '/') {

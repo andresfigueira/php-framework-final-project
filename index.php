@@ -2,14 +2,20 @@
 
 declare(strict_types=1);
 
-use Resources\Router;
+use Core\App;
+
+use function Core\dd;
 
 defined("ROOT")
     or define("ROOT", $_SERVER['DOCUMENT_ROOT']);
 
-require_once(ROOT . '/config/config.php');
-require_once(ROOT . '/src/Resources/functions.php');
-require_once(ROOT . '/config/autoload.php');
+require(ROOT . '/config/global.php');
+require(ROOT . '/src/Core/autoload.php');
+require(ROOT . '/src/Core/functions.php');
 
-$app = new Router();
-$app->run();
+try {
+    $app = new App();
+    $app->run();
+} catch (\Throwable $th) {
+    dd($th);
+}

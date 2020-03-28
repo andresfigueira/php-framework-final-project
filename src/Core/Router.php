@@ -1,8 +1,8 @@
 <?php
 
-namespace Resources;
+namespace Core;
 
-use Resources\Helpers\RouteHelper;
+use Core\Helpers\RouteHelper;
 
 require_once(ROOT . '/config/routes.php');
 
@@ -13,10 +13,29 @@ class Router
 
     public function __construct()
     {
-        $this->request = RouteHelper::parseRequest($_SERVER['PATH_INFO'] or $_SERVER['REQUEST_URI']);
+        $url = $this->currentUrl();
+        $this->request = RouteHelper::parseRequest($url);
         $this->method = $_SERVER['REQUEST_METHOD'];
 
         $this->generateRoutes();
+    }
+
+    public function run(): void
+    {
+        if ($this->hasRoute($this->request, $this->method)) {
+            $this->routes[$this->request][$this->method]->call($this);
+        } else {
+            new Redirect('/404');
+        }
+    }
+
+    public static function currentUrl()
+    {
+        if (array_key_exists('PATH_INFO', $_SERVER)) {
+            return $_SERVER['PATH_INFO'];
+        }
+
+        return '/';
     }
 
     public function generateRoutes(): void
@@ -26,10 +45,9 @@ class Router
             $methods = $route['methods'];
             $controller = $route['controller'];
             $action = $route['action'];
-            $parameters = array_key_exists('parameters', $route) ? $route['parameters'] : [];
 
             // TODO: 
-            // Catch if class or method not found
+            // Catch if controller or action not found
             foreach ($methods as $method) {
                 $callback = function () use ($controller, $action) {
                     $useClass = "\\Controllers\\" . ucfirst($controller) . "Controller";
@@ -39,33 +57,19 @@ class Router
                     $class->{$action}();
                 };
 
-                $this->addRoute($url, $method, $parameters, $callback);
+                $this->addRoute($url, $method, $callback);
             }
         }
     }
 
-    public function addRoute(string $url, string $method, array $parameters, \Closure $fn): void
+    public function addRoute(string $url, string $method, \Closure $fn): void
     {
-        $this->routes[$url][$method] = [
-            'function' => $fn,
-            'parameters' => $parameters,
-        ];
+        $this->routes[$url][$method] = $fn;
     }
 
     public function hasRoute(string $url, string $method): bool
     {
         return array_key_exists($url, $this->routes)
             and array_key_exists($method, $this->routes[$url]);
-    }
-
-    public function run(): void
-    {
-        if ($this->hasRoute($this->request, $this->method)) {
-            $this->routes[$this->request][$this->method]['function']->call($this);
-        } else {
-            // TODO:
-            // Add 404 error page
-            var_dump('404');
-        }
     }
 }

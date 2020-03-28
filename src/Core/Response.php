@@ -1,16 +1,18 @@
 <?php
 
-namespace Resources;
+namespace Core;
 
 class Response
 {
-    protected $templatePath;
-    protected $variables;
+    private $templatePath;
+    private $variables;
+    private $baseTemplateFullPath;
 
     public function __construct($templatePath, $variables = array())
     {
         $this->setTemplatePath($templatePath);
         $this->setVariables($variables);
+        $this->setBaseTemplateFullPath(TEMPLATES_PATH . "/base/base.index.php");
         $this->render();
     }
 
@@ -18,9 +20,11 @@ class Response
     {
         $templatePath = $this->getTemplatePath();
         $variables = $this->getVariables();
-        $templateFullPath = TEMPLATES_PATH . "/" . $templatePath;
+        $baseTemplateFullPath = $this->getBaseTemplateFullPath();
+        // Sera renderizado en la base template
+        $__templateFullPath = TEMPLATES_PATH . "/" . $templatePath;
 
-        if (count($variables) > 0) {
+        if (!empty($variables)) {
             foreach ($variables as $key => $value) {
                 if (strlen($key) > 0) {
                     ${$key} = $value;
@@ -28,16 +32,12 @@ class Response
             }
         }
 
-        if (file_exists($templateFullPath)) {
-            require_once($templateFullPath);
+        if (file_exists($__templateFullPath)) {
+            require_once($baseTemplateFullPath);
         } else {
-            /*
-            If the file isn't found the error can be handled in lots of ways.
-            In this case we will just include an error template.
-        */
             // TODO:
             // Create error page
-            var_dump($templatePath . ' not found.');
+            die($templatePath . ' not found.');
             // require_once(TEMPLATES_PATH . "/error.php");
         }
     }
@@ -62,6 +62,18 @@ class Response
     public function setVariables($variables): self
     {
         $this->variables = $variables;
+
+        return $this;
+    }
+
+    public function getBaseTemplateFullPath(): String
+    {
+        return $this->baseTemplateFullPath;
+    }
+
+    public function setBaseTemplateFullPath($baseTemplateFullPath): self
+    {
+        $this->baseTemplateFullPath = $baseTemplateFullPath;
 
         return $this;
     }

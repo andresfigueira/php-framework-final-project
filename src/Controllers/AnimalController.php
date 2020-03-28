@@ -2,32 +2,26 @@
 
 namespace Controllers;
 
+use Repository\AnimalRepository;
+use Core\Response;
+
 class AnimalController extends SecurityController
 {
     public function index()
     {
-        // $db = new DatabaseController();
+        $animals = AnimalRepository::findAll();
 
-        // $animals = $db->selectOne('SELECT * FROM estado');
-
-        // return new Response('layout.php', ['animals' => $animals]);
+        return new Response('animals/animals.index.php', ['animals' => $animals]);
     }
 
     public function show()
     {
-        // $id = $_GET['id'];
+        if (array_key_exists('id', $_GET)) {
+            $id = $_GET['id'];
 
-        // if ($id) {
-        //     dd("HERE ID: " . $_GET['id']);
-        //     $animal = AnimalRepository::findById($id);
-        //     dd($animal);
-        // }
+            $animal = AnimalRepository::findById($id);
 
-        // return new Response('layout.php', ['animals' => $animals]);
-    }
-
-    public function create()
-    {
-        echo 'HOLA';
+            return new Response('base/base.index.php', ['animal' => $animal]);
+        }
     }
 }

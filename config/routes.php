@@ -1,23 +1,50 @@
 <?php
 
 $routes = [
+    // GET
     [
         'url' => '/',
         'methods' => ['GET'],
-        'controller' => 'animal',
+        'controller' => 'publicacion',
         'action' => 'index',
     ],
     [
-        'url' => '/animals/show',
+        'url' => '/acceder',
         'methods' => ['GET'],
-        'controller' => 'animal',
-        'action' => 'show',
+        'controller' => 'login',
+        'action' => 'index',
     ],
     [
-        'url' => '/lista-animales',
+        'url' => '/registro',
         'methods' => ['GET'],
-        'controller' => 'animal',
-        'action' => 'create',
+        'controller' => 'login',
+        'action' => 'index',
+    ],
+    [
+        'url' => '/cerrar-sesion',
+        'methods' => ['GET'],
+        'controller' => 'login',
+        'action' => 'logout',
+    ],
+    [
+        'url' => '/404',
+        'methods' => ['GET'],
+        'controller' => 'error',
+        'action' => 'pageNotFound',
+    ],
+
+    // POST
+    [
+        'url' => '/acceder',
+        'methods' => ['POST'],
+        'controller' => 'login',
+        'action' => 'login',
+    ],
+    [
+        'url' => '/registro',
+        'methods' => ['POST'],
+        'controller' => 'login',
+        'action' => 'register',
     ],
 ];
 

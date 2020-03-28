@@ -10,15 +10,29 @@ class AnimalRepository extends SecurityController
     public static function findById($id)
     {
         $db = new DatabaseController();
+        $params = [
+            'id' => $id,
+        ];
 
         $animal = $db->selectOne(
             'SELECT *
-            FROM estado
+            FROM animal
             WHERE id = :id',
-
-            ['id' => $id]
+            $params
         );
 
-        return $animal || [];
+        return $animal;
+    }
+
+    public static function findAll()
+    {
+        $db = new DatabaseController();
+
+        $animal = $db->select(
+            'SELECT *
+            FROM animal'
+        );
+
+        return $animal;
     }
 }

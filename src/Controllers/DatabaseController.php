@@ -2,23 +2,24 @@
 
 namespace Controllers;
 
+use Core\App;
 use PDO;
 
-use function Resources\dd;
+use function Core\dd;
 
-class DatabaseController
+class DatabaseController extends GlobalController
 {
-    protected PDO $pdo;
-    protected string $host;
-    protected string $database;
-    protected string $user;
-    protected string $password;
-    protected string $charset;
-    protected array $options = [];
+    private PDO $conn;
+    private string $host;
+    private string $database;
+    private string $user;
+    private string $password;
+    private string $charset;
+    private array $options = [];
 
     public function __construct()
     {
-        $config = GLOBAL_CONFIG['database'][GLOBAL_ENV];
+        $config = GLOBAL_CONFIG['database'][App::getEnv()];
 
         $this->host = $config['host'];
         $this->database = $config['database'];
@@ -39,7 +40,7 @@ class DatabaseController
         $connection = "mysql:host=$this->host;dbname=$this->database;charset=$this->charset";
 
         try {
-            $this->pdo = new PDO($connection, $this->user, $this->password, $this->options);
+            $this->conn = new PDO($connection, $this->user, $this->password, $this->options);
         } catch (\PDOException $e) {
             // TODO:
             // Mejorar error
@@ -49,26 +50,28 @@ class DatabaseController
 
     public function select(string $query, array $params = [])
     {
-        $stmt = $this->pdo->prepare($query);
+        $stmt = $this->conn->prepare($query);
         $stmt->execute($params);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        return $result;
+        return $result ? $result : [];
     }
 
     public function selectOne(string $query, array $params = [])
     {
-        $stmt = $this->pdo->prepare($query);
+        $stmt = $this->conn->prepare($query);
         $stmt->execute($params);
         $result = $stmt->fetch();
 
-        return $result;
+        return $result ? $result : [];
     }
 
     public function query(string $query, array $params = [])
     {
-        return $this->pdo
+        $this->conn
             ->prepare($query)
             ->execute($params);
+
+        return $this->conn->lastInsertId();
     }
 }
