@@ -2,7 +2,7 @@
     <div class="col-12 col-md-6 col-lg-4">
         <h1 class="lead mb-4">Iniciar sesión</h1>
 
-        <form method="POST" action="/login">
+        <form method="POST" action="/acceder">
             <div class="form-group">
                 <label>Email</label>
                 <input type="email" class="form-control" name="email" placeholder="Ingresa email" required value="<?= $loginResponseError['params']['email'] ?>">
@@ -22,7 +22,7 @@
     <div class="col-12 col-md-6 col-lg-4 mt-4 mt-md-0">
         <h1 class="lead mb-4">Registro</h1>
 
-        <form method="POST" action="/register">
+        <form method="POST" action="/registro">
             <div class="form-group">
                 <label>Nombre</label>
                 <input class="form-control" name="nombre" placeholder="Ingresa nombre" required value="<?= $registerResponseError['params']['nombre'] ?>">

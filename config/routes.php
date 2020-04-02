@@ -32,6 +32,12 @@ $routes = [
         'controller' => 'error',
         'action' => 'pageNotFound',
     ],
+    [
+        'url' => '/animales/crear',
+        'methods' => ['GET'],
+        'controller' => 'animal',
+        'action' => 'createView',
+    ],
 
     // POST
     [
@@ -46,6 +52,12 @@ $routes = [
         'controller' => 'login',
         'action' => 'register',
     ],
+    [
+        'url' => '/animales/crear',
+        'methods' => ['POST'],
+        'controller' => 'animal',
+        'action' => 'create',
+    ]
 ];
 
 defined('ROUTES')
