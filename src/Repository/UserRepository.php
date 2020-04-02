@@ -11,15 +11,17 @@ class UserRepository extends SecurityController
 {
     public static function findById($id)
     {
+        $u = new UserRepository();
         $db = new DatabaseController();
         $params = [
             'id' => $id,
         ];
 
         $user = $db->selectOne(
-            'SELECT *
-            FROM usuario
-            WHERE id = :id',
+            implode(' ', [
+                $u->baseSelectQuery(),
+                "WHERE id = :id"
+            ]),
             $params
         );
 
@@ -57,15 +59,17 @@ class UserRepository extends SecurityController
 
     public static function findUserByEmailAndPassword(String $email, String $password)
     {
+        $u = new UserRepository();
         $db = new DatabaseController();
         $params = [
             'email' => $email
         ];
 
         $user = $db->selectOne(
-            'SELECT *
-            FROM usuario
-            WHERE email = :email',
+            implode(' ', [
+                $u->baseSelectQuery(),
+                "WHERE email = :email"
+            ]),
             $params
         );
 
@@ -105,5 +109,16 @@ class UserRepository extends SecurityController
         $user = UserRepository::findById($userId);
 
         return $user;
+    }
+
+    private function baseSelectQuery(): String
+    {
+        $query = 'SELECT
+                u.*,
+                i.url AS imagen
+            FROM usuario u
+            LEFT JOIN imagen i ON u.imagen_id = i.id';
+
+        return $query;
     }
 }

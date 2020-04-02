@@ -32,6 +32,12 @@ $routes = [
         'controller' => 'error',
         'action' => 'pageNotFound',
     ],
+    [
+        'url' => '/perfil',
+        'methods' => ['GET'],
+        'controller' => 'user',
+        'action' => 'profile',
+    ],
 
     // POST
     [
