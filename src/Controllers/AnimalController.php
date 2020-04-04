@@ -36,14 +36,14 @@ class AnimalController extends SecurityController
     public function create()
     {
         // Validación
-        $nombre_animal = $_POST['nombre_animal'];
+        $nombreAnimal = $_POST['nombre_animal'];
         $descripcion = $_POST['descripcion'];
         $tipoAnimal = $_POST['tipo_animal'];
         $fechaNacimientoAnimal = $_POST['fecha_nacimiento_animal'];
         $razaAnimal = $_POST['raza_animal'];
         $sexoAnimal = $_POST['sexo_animal'];
         $params = [
-            'nombre_animal' => $nombre_animal,
+            'nombre_animal' => $nombreAnimal,
             'descripcion' => $descripcion,
             'tipo_animal' => $tipoAnimal,
             'fecha_nacimiento_animal' => $fechaNacimientoAnimal,
@@ -75,7 +75,7 @@ class AnimalController extends SecurityController
         }
 
         // Crear animal
-        $animal = AnimalRepository::createAnimal($nombre_animal, $descripcion, $tipoAnimal, $fechaNacimientoAnimal, $razaAnimal,$sexoAnimal);
+        $animal = AnimalRepository::createAnimal($nombreAnimal, $descripcion, $tipoAnimal, $fechaNacimientoAnimal, $razaAnimal, $sexoAnimal);
 
         return new Redirect('/');
     }

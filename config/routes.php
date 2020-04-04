@@ -38,6 +38,12 @@ $routes = [
         'controller' => 'animal',
         'action' => 'createView',
     ],
+    [
+        'url' => '/publicacion/crear',
+        'methods' => ['GET'],
+        'controller' => 'publicacion',
+        'action' => 'createPublView',
+    ],
 
     // POST
     [
@@ -57,7 +63,13 @@ $routes = [
         'methods' => ['POST'],
         'controller' => 'animal',
         'action' => 'create',
-    ]
+    ],
+    [
+        'url' => '/publicacion/crear',
+        'methods' => ['POST'],
+        'controller' => 'publicacion',
+        'action' => 'createpubl',
+    ],
 ];
 
 defined('ROUTES')

@@ -39,7 +39,7 @@
                 <small class="form-text text-danger"><?= $responseError['errors']['raza_animal'] ?></small>
             </div>
             <div class="form-group">
-                <label>Sexo*</label>
+                <label>Sexo</label>
                 <select class="form-control" name="sexo_animal" placeholder="Selecciona el sexo">
                 <option value="" selected>Selecciona el sexo</option>
                     <?php foreach ($sexoAnimalOptions as $sexoAnimalOption) { ?>
@@ -53,7 +53,7 @@
                 <input type="url" class="form-control" name="foto_animal" placeholder="Copia la url de la fotografía">
             </div>
             <div class="w-full flex justify-end">
-                <button type="submit" class="btn btn-primary col-12">Completar registro</button>
+                <button type="submit" class="btn btn-primary col-12">Registrar animal</button>
             </div>
         </form>
     </div>

@@ -40,16 +40,41 @@ class AnimalRepository extends SecurityController
         return $animal;
     }
 
+    public static function findByUser()
+    {
+        $db = new DatabaseController();
+
+        $params = [
+            'usuario' => $_SESSION['user']['id'],
+        ];
+
+        $animal = $db->select(
+            'SELECT *
+            FROM animal
+            WHERE usuario_id = :usuario',
+            $params
+        );
+
+        return $animal;
+    }
+
     public static function createAnimal(String $nombre_animal, String $descripcion, String $tipoAnimal, String $fechaNacimientoAnimal, String $razaAnimal, String $sexoAnimal)
     {
         $db = new DatabaseController();
-        $fechaNacimientoAnimal = new DateTime(str_replace('/', '-', $fechaNacimientoAnimal));
+
+        $fechaNacimientoAnimal = GeneralHelper::emptyToNull($fechaNacimientoAnimal);
+
+        if ($fechaNacimientoAnimal) {
+            $fechaNacimientoAnimal = new DateTime($fechaNacimientoAnimal);
+            date_format($fechaNacimientoAnimal, 'Y-m-d');
+        }
+        
         $params = [
             'nombre_animal' => $nombre_animal,
             'descripcion' => $descripcion,
             'tipo_animal_id' => $tipoAnimal,
             'usuario_id' => $_SESSION['user']['id'],
-            'fecha_nacimiento_animal' => GeneralHelper::emptyToNull(date_format($fechaNacimientoAnimal, 'Y-m-d')),
+            'fecha_nacimiento_animal' => $fechaNacimientoAnimal,
             'raza_animal_id' => GeneralHelper::emptyToNull($razaAnimal),
             'sexo_animal_id' => GeneralHelper::emptyToNull($sexoAnimal),
         ];

@@ -4,6 +4,7 @@ namespace Repository;
 
 use Controllers\DatabaseController;
 use Controllers\SecurityController;
+use Helpers\GeneralHelper;
 
 use function Core\dd;
 
@@ -106,5 +107,46 @@ class PublicacionRepository extends SecurityController
             LEFT JOIN provincia pr ON p.provincia_id = pr.id';
 
         return $query;
+    }
+
+    public static function createPublicacion(String $tituloPubl, String $descripcionPubl, String $referenciaPubl, String $direccion, String $provincia, String $animalId)
+    {
+        $db = new DatabaseController();
+        
+        $params = [
+            'titulo_publ' => $tituloPubl,
+            'descripcion_publ' => GeneralHelper::emptyToNull($descripcionPubl),
+            'referencia_publ' => GeneralHelper::emptyToNull($referenciaPubl),
+            'usuario_id' => $_SESSION['user']['id'],
+            'direccion' => GeneralHelper::emptyToNull($direccion),
+            'provincia_id' => GeneralHelper::emptyToNull($provincia),
+            'animal_id' => $animalId,
+        ];
+
+        $query = '  INSERT INTO publicacion
+                        (titulo,
+                        descripcion,
+                        referencia,
+                        usuario_id,
+                        direccion,
+                        provincia_id,
+                        animal_id,
+                        estado_id)
+                    VALUES
+                        (:titulo_publ, 
+                        :descripcion_publ, 
+                        :referencia_publ, 
+                        :usuario_id,
+                        :direccion,
+                        :provincia_id,
+                        :animal_id,
+                        (SELECT id FROM estado WHERE nombre = "Activo"))';
+
+
+        $publicacionId = $db->query($query, $params);
+
+        $publicacion = PublicacionRepository::findById($publicacionId);
+
+        return $publicacion;
     }
 }
