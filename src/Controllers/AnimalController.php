@@ -6,6 +6,7 @@ use Core\Redirect;
 use Repository\AnimalRepository;
 use Core\Response;
 use Helpers\GeneralHelper;
+use Repository\ImagenRepository;
 use Repository\RazaAnimalRepository;
 use Repository\SexoAnimalRepository;
 use Repository\TipoAnimalRepository;
@@ -35,6 +36,7 @@ class AnimalController extends SecurityController
 
     public function create()
     {
+
         // Validación
         $nombreAnimal = $_POST['nombre_animal'];
         $descripcion = $_POST['descripcion'];
@@ -42,6 +44,7 @@ class AnimalController extends SecurityController
         $fechaNacimientoAnimal = $_POST['fecha_nacimiento_animal'];
         $razaAnimal = $_POST['raza_animal'];
         $sexoAnimal = $_POST['sexo_animal'];
+        $imagen = ImagenRepository::addImage($_POST['imagen']);
         $params = [
             'nombre_animal' => $nombreAnimal,
             'descripcion' => $descripcion,
@@ -49,6 +52,7 @@ class AnimalController extends SecurityController
             'fecha_nacimiento_animal' => $fechaNacimientoAnimal,
             'raza_animal' => $razaAnimal,
             'sexo_animal' => $sexoAnimal,
+            'imagen' => $imagen,
         ];
         $constraints = [
             'nombre_animal' => [
@@ -75,7 +79,7 @@ class AnimalController extends SecurityController
         }
 
         // Crear animal
-        $animal = AnimalRepository::createAnimal($nombreAnimal, $descripcion, $tipoAnimal, $fechaNacimientoAnimal, $razaAnimal, $sexoAnimal);
+        $animal = AnimalRepository::createAnimal($nombreAnimal, $descripcion, $tipoAnimal, $fechaNacimientoAnimal, $razaAnimal, $sexoAnimal, $imagen);
 
         return new Redirect('/');
     }

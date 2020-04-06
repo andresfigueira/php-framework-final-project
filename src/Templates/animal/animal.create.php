@@ -1,6 +1,6 @@
 <div class="row p-4">
     <div class="col-12 col-md-6 col-lg-4">
-        <h1 class="lead mb-4">Registrar nuevo animal</h1>
+        <h1 class="lead mb-4">Crear nuevo animal</h1>
 
         <form method="POST" action="/animales/crear">
             <div class="form-group">
@@ -50,10 +50,10 @@
             </div>
             <div class="form-group">
                 <label>Foto</label>
-                <input type="url" class="form-control" name="foto_animal" placeholder="Copia la url de la fotografía">
+                <input type="url" class="form-control" name="imagen" placeholder="Copia la url de la fotografía">
             </div>
             <div class="w-full flex justify-end">
-                <button type="submit" class="btn btn-primary col-12">Registrar animal</button>
+                <button type="submit" class="btn btn-primary col-12">Crear animal</button>
             </div>
         </form>
     </div>

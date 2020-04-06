@@ -58,7 +58,7 @@ class AnimalRepository extends SecurityController
         return $animal;
     }
 
-    public static function createAnimal(String $nombre_animal, String $descripcion, String $tipoAnimal, String $fechaNacimientoAnimal, String $razaAnimal, String $sexoAnimal)
+    public static function createAnimal(String $nombreAnimal, String $descripcion, String $tipoAnimal, String $fechaNacimientoAnimal, String $razaAnimal, String $sexoAnimal, String $imagen)
     {
         $db = new DatabaseController();
 
@@ -66,17 +66,18 @@ class AnimalRepository extends SecurityController
 
         if ($fechaNacimientoAnimal) {
             $fechaNacimientoAnimal = new DateTime($fechaNacimientoAnimal);
-            date_format($fechaNacimientoAnimal, 'Y-m-d');
+            $fechaNacimientoAnimal = date_format($fechaNacimientoAnimal, 'Y-m-d');
         }
         
         $params = [
-            'nombre_animal' => $nombre_animal,
+            'nombre_animal' => $nombreAnimal,
             'descripcion' => $descripcion,
             'tipo_animal_id' => $tipoAnimal,
             'usuario_id' => $_SESSION['user']['id'],
             'fecha_nacimiento_animal' => $fechaNacimientoAnimal,
             'raza_animal_id' => GeneralHelper::emptyToNull($razaAnimal),
             'sexo_animal_id' => GeneralHelper::emptyToNull($sexoAnimal),
+            'imagen_id' => GeneralHelper::emptyToNull($imagen),
         ];
 
         $query = '  INSERT INTO animal
@@ -87,6 +88,7 @@ class AnimalRepository extends SecurityController
                         fecha_nacimiento,
                         raza_animal_id,
                         sexo_animal_id,
+                        imagen_id,
                         estado_id)
                     VALUES
                         (:nombre_animal, 
@@ -96,6 +98,7 @@ class AnimalRepository extends SecurityController
                         :fecha_nacimiento_animal,
                         :raza_animal_id,
                         :sexo_animal_id,
+                        :imagen_id,
                         (SELECT id FROM estado WHERE nombre = "Activo"))';
 
 

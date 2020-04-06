@@ -21,7 +21,7 @@ class PublicacionRepository extends SecurityController
         $publicacion = $db->selectOne(
             implode(' ', [
                 $p->baseSelectQuery(),
-                "WHERE id = :id"
+                "WHERE p.id = :id"
             ]),
             $params
         );
