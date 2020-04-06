@@ -21,25 +21,25 @@ class PublicacionController extends SecurityController
         return new Response('publicacion/publicacion.index.php', ['publicaciones' => $publicaciones]);
     }
 
-    public function createPubl()
+    public function create()
     {
         // Validación
-        $tituloPubl = $_POST['titulo_publ'];
-        $descripcionPubl = $_POST['descripcion_publ'];
-        $referenciaPubl = $_POST['referencia_publ'];
+        $tituloPublicacion = $_POST['titulo'];
+        $descripcionPublicacion = $_POST['descripcion'];
+        $referenciaPublicacion = $_POST['referencia'];
         $direccion = $_POST['direccion'];
         $provincia = $_POST['provincia_id'];
         $animalId = $_POST['animal_id'];
         $params = [
-            'titulo_publ' => $tituloPubl,
-            'descripcion_publ' => $descripcionPubl,
-            'referencia_publ' => $referenciaPubl,
+            'titulo' => $tituloPublicacion,
+            'descripcion' => $descripcionPublicacion,
+            'referencia' => $referenciaPublicacion,
             'direccion' => $direccion,
             'provincia_id' => $provincia,
             'animal_id' => $animalId,
         ];
         $constraints = [
-            'titulo_publ' => [
+            'titulo' => [
                 'required' => true,
             ],
             'animal_id' => [
@@ -60,14 +60,14 @@ class PublicacionController extends SecurityController
         }
 
         // Crear publicacion
-        $publicacion = PublicacionRepository::createPublicacion($tituloPubl, $descripcionPubl, $referenciaPubl, $direccion, $provincia, $animalId);
+        $publicacion = PublicacionRepository::createPublicacion($tituloPublicacion, $descripcionPublicacion, $referenciaPublicacion, $direccion, $provincia, $animalId);
 
         return new Redirect('/');
     }
 
-    public function createPublView()
+    public function createView()
     {
-        $userAnimalOptions = AnimalRepository::findByUser();
+        $userAnimalOptions = AnimalRepository::findByUserId($_SESSION['user']['id']);
         $provinciaOptions = ProvinciaRepository::findAll();
         
         return new Response('publicacion/publicacion.create.php', ['animalOptions' => $userAnimalOptions, 'provinciaOptions' => $provinciaOptions,], );

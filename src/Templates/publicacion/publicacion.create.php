@@ -5,17 +5,17 @@
         <form method="POST" action="/publicacion/crear">
             <div class="form-group">
                 <label>Titulo*</label>
-                <input class="form-control" name="titulo_publ" placeholder="Ingresa un título" required value="<?= $responseError['params']['titulo_publ'] ?>">
+                <input class="form-control" name="titulo" placeholder="Ingresa un título" required value="<?= $responseError['params']['titulo_publ'] ?>">
                 <small class="form-text text-danger"><?= $responseError['errors']['titulo_publ'] ?></small>
             </div>
             <div class="form-group">
                 <label>Descripción</label>
-                <input class="form-control" name="descripcion_publ" placeholder="Ingresa una descripción">
+                <input class="form-control" name="descripcion" placeholder="Ingresa una descripción">
                 <small class="form-text text-danger"><?= $responseError['errors']['descripcion_publ'] ?></small>
             </div>
             <div class="form-group">
                 <label>Referencia</label>
-                <input class="form-control" name="referencia_publ" placeholder="Referencia????">
+                <input class="form-control" name="referencia" placeholder="Referencia????">
                 <small class="form-text text-danger"><?= $responseError['errors']['referencia_publ'] ?></small>
             </div>
             <div class="form-group">

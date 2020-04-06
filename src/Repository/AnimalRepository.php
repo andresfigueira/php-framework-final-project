@@ -40,12 +40,12 @@ class AnimalRepository extends SecurityController
         return $animal;
     }
 
-    public static function findByUser()
+    public static function findByUserId($id)
     {
         $db = new DatabaseController();
 
         $params = [
-            'usuario' => $_SESSION['user']['id'],
+            'usuario' => $id,
         ];
 
         $animal = $db->select(

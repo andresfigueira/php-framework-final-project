@@ -42,7 +42,7 @@ $routes = [
         'url' => '/publicacion/crear',
         'methods' => ['GET'],
         'controller' => 'publicacion',
-        'action' => 'createPublView',
+        'action' => 'createView',
     ],
 
     // POST
@@ -68,7 +68,7 @@ $routes = [
         'url' => '/publicacion/crear',
         'methods' => ['POST'],
         'controller' => 'publicacion',
-        'action' => 'createpubl',
+        'action' => 'create',
     ],
 ];
 

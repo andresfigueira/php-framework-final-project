@@ -109,14 +109,14 @@ class PublicacionRepository extends SecurityController
         return $query;
     }
 
-    public static function createPublicacion(String $tituloPubl, String $descripcionPubl, String $referenciaPubl, String $direccion, String $provincia, String $animalId)
+    public static function createPublicacion(String $tituloPublicacion, String $descripcionPublicacion, String $referenciaPublicacion, String $direccion, String $provincia, String $animalId)
     {
         $db = new DatabaseController();
         
         $params = [
-            'titulo_publ' => $tituloPubl,
-            'descripcion_publ' => GeneralHelper::emptyToNull($descripcionPubl),
-            'referencia_publ' => GeneralHelper::emptyToNull($referenciaPubl),
+            'titulo' => $tituloPublicacion,
+            'descripcion' => GeneralHelper::emptyToNull($descripcionPublicacion),
+            'referencia' => GeneralHelper::emptyToNull($referenciaPublicacion),
             'usuario_id' => $_SESSION['user']['id'],
             'direccion' => GeneralHelper::emptyToNull($direccion),
             'provincia_id' => GeneralHelper::emptyToNull($provincia),
@@ -133,9 +133,9 @@ class PublicacionRepository extends SecurityController
                         animal_id,
                         estado_id)
                     VALUES
-                        (:titulo_publ, 
-                        :descripcion_publ, 
-                        :referencia_publ, 
+                        (:titulo, 
+                        :descripcion, 
+                        :referencia, 
                         :usuario_id,
                         :direccion,
                         :provincia_id,
