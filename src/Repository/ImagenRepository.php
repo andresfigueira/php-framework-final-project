@@ -18,7 +18,7 @@ class ImagenRepository extends SecurityController
         return $imagenes;
     }
 
-    public static function addImage(String $url){
+    public static function create(String $url){
         $db = new DatabaseController();
 
         $params = [

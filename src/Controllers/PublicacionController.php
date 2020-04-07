@@ -60,7 +60,7 @@ class PublicacionController extends SecurityController
         }
 
         // Crear publicacion
-        $publicacion = PublicacionRepository::createPublicacion($tituloPublicacion, $descripcionPublicacion, $referenciaPublicacion, $direccion, $provincia, $animalId);
+        $publicacion = PublicacionRepository::create($tituloPublicacion, $descripcionPublicacion, $referenciaPublicacion, $direccion, $provincia, $animalId);
 
         return new Redirect('/');
     }

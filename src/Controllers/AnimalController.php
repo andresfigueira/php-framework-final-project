@@ -36,6 +36,10 @@ class AnimalController extends SecurityController
 
     public function create()
     {
+        $imagen = $_POST['imagen'];
+        if (GeneralHelper::emptyToNull($imagen)) {
+            $imagen = ImagenRepository::create($imagen);
+        }
 
         // Validación
         $nombreAnimal = $_POST['nombre_animal'];
@@ -44,7 +48,6 @@ class AnimalController extends SecurityController
         $fechaNacimientoAnimal = $_POST['fecha_nacimiento_animal'];
         $razaAnimal = $_POST['raza_animal'];
         $sexoAnimal = $_POST['sexo_animal'];
-        $imagen = ImagenRepository::addImage($_POST['imagen']);
         $params = [
             'nombre_animal' => $nombreAnimal,
             'descripcion' => $descripcion,
@@ -79,7 +82,7 @@ class AnimalController extends SecurityController
         }
 
         // Crear animal
-        $animal = AnimalRepository::createAnimal($nombreAnimal, $descripcion, $tipoAnimal, $fechaNacimientoAnimal, $razaAnimal, $sexoAnimal, $imagen);
+        $animal = AnimalRepository::create($nombreAnimal, $descripcion, $tipoAnimal, $fechaNacimientoAnimal, $razaAnimal, $sexoAnimal, $imagen);
 
         return new Redirect('/');
     }

@@ -109,7 +109,7 @@ class PublicacionRepository extends SecurityController
         return $query;
     }
 
-    public static function createPublicacion(String $tituloPublicacion, String $descripcionPublicacion, String $referenciaPublicacion, String $direccion, String $provincia, String $animalId)
+    public static function create(String $tituloPublicacion, String $descripcionPublicacion, String $referenciaPublicacion, String $direccion, String $provincia, String $animalId)
     {
         $db = new DatabaseController();
         

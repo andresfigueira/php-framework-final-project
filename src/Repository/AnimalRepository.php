@@ -58,7 +58,7 @@ class AnimalRepository extends SecurityController
         return $animal;
     }
 
-    public static function createAnimal(String $nombreAnimal, String $descripcion, String $tipoAnimal, String $fechaNacimientoAnimal, String $razaAnimal, String $sexoAnimal, String $imagen)
+    public static function create(String $nombreAnimal, String $descripcion, String $tipoAnimal, String $fechaNacimientoAnimal, String $razaAnimal, String $sexoAnimal, String $imagen)
     {
         $db = new DatabaseController();
 
