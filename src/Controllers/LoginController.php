@@ -127,7 +127,7 @@ class LoginController extends SecurityController
         }
 
         // Crear usuario
-        $user = UserRepository::createUser($nombre, $apellido, $email, $password);
+        $user = UserRepository::create($nombre, $apellido, $email, $password);
 
         // Almacenar sesión
         $security = new SecurityController();

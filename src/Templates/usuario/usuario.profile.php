@@ -12,18 +12,30 @@ $showPublicaciones = !$showAnimales;
 
 ?>
 
+<?php if ($responseSuccess['message']) { ?>
+    <div class="alert alert-success mt-5" role="alert">
+        <?= $responseSuccess['message'] ?>
+    </div>
+<?php } ?>
+
 <div class="flex flex-col items-center sm:flex-row sm:justify-between">
     <h1 class="lead mb-4 mt-4">Perfil</h1>
     <a class="btn btn-primary btn-sm" href="/perfil/editar" role="button">Editar</a>
 </div>
 
 <div class="jumbotron p-4 w-full">
-    <img src="<?= $imagen ?>" />
-    <h1 class="lead mb-4"><?= $nombre ?> <?= $apellido ?></h1>
-    <div class="flex flex-col items-center sm:justify-between sm:flex-row">
-        <p class="mb-0"><?= $email ?></p>
-        <div>
-            <a class="btn btn-primary btn-sm items-end" href="mailto:<?= $email ?>" role="button">Contactar</a>
+    <div class="flex flex-col sm:flex-row">
+        <div class="w-full h-full sm:w-64">
+            <img src="<?= $imagen ?>" />
+        </div>
+        <div class="ml-2">
+            <h1 class="lead mb-4"><?= $nombre ?> <?= $apellido ?></h1>
+            <div class="flex flex-col items-center sm:justify-between sm:flex-row">
+                <p><?= $email ?></p>
+            </div>
+            <div>
+                <a class="btn btn-primary btn-sm items-end" href="mailto:<?= $email ?>" role="button">Contactar</a>
+            </div>
         </div>
     </div>
 </div>
@@ -41,7 +53,7 @@ $showPublicaciones = !$showAnimales;
 <?php
 if ($showPublicaciones) {
     // Publicaciones
-    foreach ($publicaciones as $publicacion) {
+    foreach ((array) $publicaciones as $publicacion) {
         include dirname(__FILE__) . '/../publicacion/components/publicacion.php';
     }
 
@@ -52,7 +64,7 @@ if ($showPublicaciones) {
     }
 } else if ($showAnimales) {
     //  Animales
-    foreach ($animales as $animal) {
+    foreach ((array) $animales as $animal) {
         include dirname(__FILE__) . '/../animal/components/animal.php';
     }
 

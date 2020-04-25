@@ -71,7 +71,7 @@ class DatabaseController extends GlobalController
         $this->conn
             ->prepare($query)
             ->execute($params);
-
+        
         return $this->conn->lastInsertId();
     }
 }
