@@ -45,7 +45,7 @@ $routes = [
         'action' => 'createView',
     ],
     [
-        'url' => '/publicacion/crear',
+        'url' => '/publicaciones/crear',
         'methods' => ['GET'],
         'controller' => 'publicacion',
         'action' => 'createView',
@@ -71,7 +71,7 @@ $routes = [
         'action' => 'create',
     ],
     [
-        'url' => '/publicacion/crear',
+        'url' => '/publicaciones/crear',
         'methods' => ['POST'],
         'controller' => 'publicacion',
         'action' => 'create',

@@ -2,7 +2,7 @@
     <div class="col-12 col-md-6 col-lg-4">
         <h1 class="lead mb-4">Subir una publicación</h1>
 
-        <form method="POST" action="/publicacion/crear">
+        <form method="POST" action="/publicaciones/crear">
             <div class="form-group">
                 <label>Titulo*</label>
                 <input class="form-control" name="titulo" placeholder="Ingresa un título" required value="<?= $responseError['params']['titulo_publ'] ?>">
@@ -15,7 +15,7 @@
             </div>
             <div class="form-group">
                 <label>Referencia</label>
-                <input class="form-control" name="referencia" placeholder="Referencia????">
+                <input class="form-control" name="referencia" placeholder="Referencia">
                 <small class="form-text text-danger"><?= $responseError['errors']['referencia_publ'] ?></small>
             </div>
             <div class="form-group">
