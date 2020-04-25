@@ -20,7 +20,7 @@ class UserRepository extends SecurityController
         $user = $db->selectOne(
             implode(' ', [
                 $u->baseSelectQuery(),
-                "WHERE id = :id"
+                "WHERE u.id = :id"
             ]),
             $params
         );
@@ -30,15 +30,17 @@ class UserRepository extends SecurityController
 
     public static function findByEmail($email)
     {
+        $u = new UserRepository();
         $db = new DatabaseController();
         $params = [
             'email' => $email,
         ];
 
         $user = $db->selectOne(
-            'SELECT *
-            FROM usuario
-            WHERE email = :email',
+            implode(' ', [
+                $u->baseSelectQuery(),
+                "WHERE email = :email"
+            ]),
             $params
         );
 
@@ -47,11 +49,11 @@ class UserRepository extends SecurityController
 
     public static function findAll()
     {
+        $u = new UserRepository();
         $db = new DatabaseController();
 
         $user = $db->select(
-            'SELECT *
-            FROM usuario'
+            $u->baseSelectQuery()
         );
 
         return $user;
