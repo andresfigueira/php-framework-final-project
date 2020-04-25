@@ -1,4 +1,7 @@
 <?php
+
+use Helpers\GeneralHelper;
+
 $titulo = $publicacion['titulo'];
 $descripcion = $publicacion['descripcion'];
 $referencia = $publicacion['referencia'];
@@ -18,7 +21,7 @@ $imagen = $publicacion['imagen'];
     <div class="flex flex-col">
         <div class="flex flex-col h-full sm:flex-row">
             <div class="w-full h-full sm:w-64">
-                <img class="img-thumbnail" alt="<?= $nombreAnimal ?>" src="<?= $imagen ?>" />
+                <img class="img-thumbnail" alt="<?= $nombreAnimal ?>" src="<?= $imagen ? $imagen : GeneralHelper::defaultBlankImage() ?>" />
             </div>
 
             <div class="flex flex-col w-full h-full mt-2 justify-between sm:ml-2 sm:mt-0">

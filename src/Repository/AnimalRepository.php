@@ -13,15 +13,17 @@ class AnimalRepository extends SecurityController
 {
     public static function findById($id)
     {
+        $a = new AnimalRepository();
         $db = new DatabaseController();
         $params = [
             'id' => $id,
         ];
 
         $animal = $db->selectOne(
-            'SELECT *
-            FROM animal
-            WHERE id = :id',
+            implode(' ', [
+                $a->baseSelectQuery(),
+                "WHERE a.id = :id"
+            ]),
             $params
         );
 
@@ -30,11 +32,11 @@ class AnimalRepository extends SecurityController
 
     public static function findAll()
     {
+        $a = new AnimalRepository();
         $db = new DatabaseController();
 
         $animal = $db->select(
-            'SELECT *
-            FROM animal'
+            $a->baseSelectQuery()
         );
 
         return $animal;
@@ -42,6 +44,7 @@ class AnimalRepository extends SecurityController
 
     public static function findByUserId($id)
     {
+        $a = new AnimalRepository();
         $db = new DatabaseController();
 
         $params = [
@@ -49,12 +52,12 @@ class AnimalRepository extends SecurityController
         ];
 
         $animal = $db->select(
-            'SELECT *
-            FROM animal
-            WHERE usuario_id = :usuario',
+            implode(' ', [
+                $a->baseSelectQuery(),
+                'WHERE usuario_id = :usuario'
+            ]),
             $params
         );
-
         return $animal;
     }
 
@@ -68,7 +71,7 @@ class AnimalRepository extends SecurityController
             $fechaNacimientoAnimal = new DateTime($fechaNacimientoAnimal);
             $fechaNacimientoAnimal = date_format($fechaNacimientoAnimal, 'Y-m-d');
         }
-        
+
         $params = [
             'nombre_animal' => $nombreAnimal,
             'descripcion' => $descripcion,
@@ -107,5 +110,22 @@ class AnimalRepository extends SecurityController
         $animal = AnimalRepository::findById($animalId);
 
         return $animal;
+    }
+
+    private function baseSelectQuery(): String
+    {
+        $query = 'SELECT
+            a.*,
+            i.url AS imagen,
+            ta.nombre AS tipo_animal,
+            r.nombre AS raza_animal,
+            s.nombre AS sexo_animal
+            FROM animal a
+            LEFT JOIN tipo_animal ta ON a.tipo_animal_id = ta.id
+            LEFT JOIN raza_animal r ON a.raza_animal_id = r.id
+            LEFT JOIN sexo_animal s ON a.sexo_animal_id = s.id
+            LEFT JOIN imagen i ON a.imagen_id = i.id';
+
+        return $query;
     }
 }

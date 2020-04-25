@@ -69,7 +69,10 @@ class PublicacionController extends SecurityController
     {
         $userAnimalOptions = AnimalRepository::findByUserId($_SESSION['user']['id']);
         $provinciaOptions = ProvinciaRepository::findAll();
-        
-        return new Response('publicacion/publicacion.create.php', ['animalOptions' => $userAnimalOptions, 'provinciaOptions' => $provinciaOptions,], );
+
+        return new Response('publicacion/publicacion.create.php', [
+            'animalOptions' => $userAnimalOptions,
+            'provinciaOptions' => $provinciaOptions,
+        ]);
     }
 }

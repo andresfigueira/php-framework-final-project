@@ -79,6 +79,26 @@ class PublicacionRepository extends SecurityController
         return $publicaciones;
     }
 
+    public static function findByUserId($userId): array
+    {
+        $p = new PublicacionRepository();
+        $db = new DatabaseController();
+        $params = [
+            'usuario_id' => $userId,
+        ];
+
+        $publicaciones = $db->select(
+            implode(' ', [
+                $p->baseSelectQuery(),
+                "WHERE p.usuario_id = :usuario_id
+                ORDER BY creacion DESC, id DESC"
+            ]),
+            $params
+        );
+
+        return $publicaciones;
+    }
+
     private function baseSelectQuery(): String
     {
         $query = 'SELECT

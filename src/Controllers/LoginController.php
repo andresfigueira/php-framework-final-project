@@ -13,7 +13,7 @@ class LoginController extends SecurityController
     public function index()
     {
         if (!SecurityController::isLoggedIn()) {
-        return new Response('login/login.index.php');
+            return new Response('login/login.index.php');
         }
 
         return new Redirect('/');
@@ -30,6 +30,9 @@ class LoginController extends SecurityController
         ];
         $constraints = [
             'email' => [
+                'required' => true,
+            ],
+            'password' => [
                 'required' => true,
             ],
         ];
