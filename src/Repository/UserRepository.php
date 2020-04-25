@@ -82,7 +82,48 @@ class UserRepository extends SecurityController
         return $user;
     }
 
-    public static function createUser(String $nombre, String $apellido, String $email, String $password)
+    public static function update(
+        $nombre,
+        $apellido,
+        $email,
+        $direccion,
+        $telefono_1,
+        $telefono_2,
+        $provincia_id,
+        $imagen_id
+    ) {
+        $db = new DatabaseController();
+        $params = [
+            'nombre' => $nombre,
+            'apellido' => $apellido,
+            'email' => $email,
+            'direccion' => $direccion,
+            'telefono_1' => $telefono_1,
+            'telefono_2' => $telefono_2,
+            'provincia_id' => $provincia_id,
+            'imagen_id' => $imagen_id,
+            'usuario_id' => $_SESSION['user']['id'],
+        ];
+
+        $query = '  UPDATE usuario
+                    SET nombre = :nombre,
+                        apellido = :apellido,
+                        email = :email,
+                        direccion = :direccion,
+                        telefono_1 = :telefono_1, 
+                        telefono_2 = :telefono_2,
+                        provincia_id = :provincia_id,
+                        imagen_id = :imagen_id
+                    WHERE id = :usuario_id';
+
+        $userId = $db->query($query, $params);
+
+        $user = UserRepository::findById($userId);
+
+        return $user;
+    }
+
+    public static function create(String $nombre, String $apellido, String $email, String $password)
     {
         $db = new DatabaseController();
         $params = [
@@ -117,9 +158,14 @@ class UserRepository extends SecurityController
     {
         $query = 'SELECT
                 u.*,
-                i.url AS imagen
+                i.url AS imagen,
+                p.nombre AS provincia,
+                r.nombre AS rol_usuario
             FROM usuario u
-            LEFT JOIN imagen i ON u.imagen_id = i.id';
+            LEFT JOIN imagen i ON u.imagen_id = i.id
+            LEFT JOIN rol_usuario r ON u.rol_usuario_id = r.id
+            LEFT JOIN provincia p ON u.provincia_id = p.id
+        ';
 
         return $query;
     }

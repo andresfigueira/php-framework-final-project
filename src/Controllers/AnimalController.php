@@ -92,7 +92,11 @@ class AnimalController extends SecurityController
         $tipoAnimalOptions = TipoAnimalRepository::findAll();
         $razaAnimalOptions = RazaAnimalRepository::findAll();
         $sexoAnimalOptions = SexoAnimalRepository::findAll();
-        
-        return new Response('animal/animal.create.php', ['tipoAnimalOptions' => $tipoAnimalOptions, 'razaAnimalOptions' => $razaAnimalOptions, 'sexoAnimalOptions' => $sexoAnimalOptions,],);
+
+        return new Response('animal/animal.create.php', [
+            'tipoAnimalOptions' => $tipoAnimalOptions,
+            'razaAnimalOptions' => $razaAnimalOptions,
+            'sexoAnimalOptions' => $sexoAnimalOptions
+        ]);
     }
 }

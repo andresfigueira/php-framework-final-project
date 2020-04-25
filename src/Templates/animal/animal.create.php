@@ -49,8 +49,8 @@
                 <small class="form-text text-danger"><?= $responseError['errors']['raza_animal'] ?></small>
             </div>
             <div class="form-group">
-                <label>Foto</label>
-                <input type="url" class="form-control" name="imagen" placeholder="Copia la url de la fotografía">
+                <label>Imagen</label>
+                <input type="url" class="form-control" name="imagen" placeholder="URL de la imagen">
             </div>
             <div class="w-full flex justify-end">
                 <button type="submit" class="btn btn-primary col-12">Crear animal</button>

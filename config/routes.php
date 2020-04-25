@@ -50,6 +50,12 @@ $routes = [
         'controller' => 'publicacion',
         'action' => 'createView',
     ],
+    [
+        'url' => '/perfil/editar',
+        'methods' => ['GET'],
+        'controller' => 'user',
+        'action' => 'updateView',
+    ],
 
     // POST
     [
@@ -75,6 +81,12 @@ $routes = [
         'methods' => ['POST'],
         'controller' => 'publicacion',
         'action' => 'create',
+    ],
+    [
+        'url' => '/perfil/editar',
+        'methods' => ['POST'],
+        'controller' => 'user',
+        'action' => 'update',
     ],
 ];
 
