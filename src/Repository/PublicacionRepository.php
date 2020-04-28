@@ -169,4 +169,40 @@ class PublicacionRepository extends SecurityController
 
         return $publicacion;
     }
+
+    public static function update(
+        $publicacionId,
+        $titulo,
+        $descripcion,
+        $referencia,
+        $direccion,
+        $estadoId,
+        $provinciaId
+    ) {
+        $db = new DatabaseController();
+        $params = [
+            'publicacion_id' => $publicacionId,
+            'titulo' => $titulo,
+            'descripcion' => $descripcion,
+            'referencia' => $referencia,
+            'direccion' => $direccion,
+            'estado_id' => $estadoId,
+            'provincia_id' => $provinciaId,
+        ];
+
+        $query = '  UPDATE publicacion
+                    SET titulo = :titulo,
+                        descripcion = :descripcion,
+                        referencia = :referencia,
+                        direccion = :direccion,
+                        estado_id = :estado_id,
+                        provincia_id = :provincia_id,
+                    WHERE id = :publicacion_id';
+        
+        $publicacionId = $db->query($query, $params);
+
+        $publicacion = PublicacionRepository::findById($publicacionId);
+
+        return $publicacion;
+    }
 }

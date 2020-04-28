@@ -2,6 +2,7 @@
 
 use Helpers\GeneralHelper;
 
+$id = $publicacion['id'];
 $titulo = $publicacion['titulo'];
 $descripcion = $publicacion['descripcion'];
 $referencia = $publicacion['referencia'];
@@ -51,10 +52,24 @@ $imagen = $publicacion['imagen'];
                 <small class="text-muted"><?= $descripcionAnimal ?></small>
             </div>
 
-            <div>
-                <a class="btn btn-primary btn-sm items-end" href="mailto:<?= $email ?>" role="button">Contactar a <?= $nombreUsuario ?></a>
-            </div>
+            
+            
+            <?php
+            if ($email != $_SESSION['user']['email']) { ?>
+                <div>
+                    <a class="btn btn-primary btn-sm items-end" href="mailto:<?= $email ?>" role="button">Contactar a <?= $nombreUsuario ?></a>
+                </div>
+            <?php } ?>
+            
+            <?php
+                if ($email == $_SESSION['user']['email']) { ?>
+                    <div>
+                        <a class="btn btn-primary btn-sm items-end float-right" href="/publicaciones/editar?id=<?= $id ?>" role="button">Editar</a>
+                    </div>
+            <?php } ?>
         </div>
+
+
     </div>
 
 </div>
