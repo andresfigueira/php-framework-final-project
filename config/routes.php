@@ -62,6 +62,12 @@ $routes = [
         'controller' => 'publicacion',
         'action' => 'updateView',
     ],
+    [
+        'url' => '/publicaciones/borrar',
+        'methods' => ['GET'],
+        'controller' => 'publicacion',
+        'action' => 'removeConfirmation',
+    ],
 
     // POST
     [
@@ -99,6 +105,12 @@ $routes = [
         'methods' => ['POST'],
         'controller' => 'publicacion',
         'action' => 'update',
+    ],
+    [
+        'url' => '/publicaciones/borrar',
+        'methods' => ['POST'],
+        'controller' => 'publicacion',
+        'action' => 'remove',
     ],
 ];
 

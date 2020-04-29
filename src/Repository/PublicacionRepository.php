@@ -205,4 +205,20 @@ class PublicacionRepository extends SecurityController
 
         return $publicacion;
     }
+
+    public static function remove(
+        $publicacionId
+    ) {
+        $db = new DatabaseController();
+
+        $params = [
+            'publicacion_id' => $publicacionId,
+        ];
+
+        $query = '  DELETE 
+                    FROM publicacion
+                    WHERE id = :publicacion_id';
+        
+        $publicacionId = $db->query($query, $params);
+    }
 }

@@ -43,28 +43,29 @@ $imagen = $publicacion['imagen'];
             </div>
         </div>
 
-        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end">
-            <div>
+        <div class="inline-flex flex-col sm:flex-row sm:justify-between items-end">
+            <div class="mr-auto">
                 <h6 class="mt-2">
                     <?= $nombreAnimal ?>
                     <small class="text-muted">(<?= $referencia ?>)</small>
                 </h6>
                 <small class="text-muted"><?= $descripcionAnimal ?></small>
             </div>
-
-            
             
             <?php
             if ($email != $_SESSION['user']['email']) { ?>
                 <div>
-                    <a class="btn btn-primary btn-sm items-end" href="mailto:<?= $email ?>" role="button">Contactar a <?= $nombreUsuario ?></a>
+                    <a class="btn btn-primary btn-sm items-end float-right" href="mailto:<?= $email ?>" role="button">Contactar a <?= $nombreUsuario ?></a>
                 </div>
             <?php } ?>
             
             <?php
                 if ($email == $_SESSION['user']['email']) { ?>
                     <div>
-                        <a class="btn btn-primary btn-sm items-end float-right" href="/publicaciones/editar?id=<?= $id ?>" role="button">Editar</a>
+                    <a class="btn btn-primary btn-sm items-end float-right" href="/publicaciones/borrar?id=<?= $id ?>" role="button">Borrar</a>
+                    </div>
+                    <div class="ml-2">
+                    <a class="btn btn-primary btn-sm items-end float-right" href="/publicaciones/editar?id=<?= $id ?>" role="button">Editar</a>
                     </div>
             <?php } ?>
         </div>
