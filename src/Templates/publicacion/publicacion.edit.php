@@ -21,6 +21,9 @@ $animal_id = $publicacion['animal_id'];
         <h1 class="lead mb-4">Editar publicacion</h1>
 
         <form method="POST" action="/publicaciones/editar">
+            <div>
+                <input type="hidden" name="publicacion_id" value="<?= $id ?>">
+            </div>
             <div class="form-group">
                 <label>Título</label>
                 <input class="form-control" name="titulo" placeholder="Ingresa título" required value="<?= $titulo ?>">

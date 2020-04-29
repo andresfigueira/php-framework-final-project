@@ -196,7 +196,7 @@ class PublicacionRepository extends SecurityController
                         referencia = :referencia,
                         direccion = :direccion,
                         estado_id = :estado_id,
-                        provincia_id = :provincia_id,
+                        provincia_id = :provincia_id
                     WHERE id = :publicacion_id';
         
         $publicacionId = $db->query($query, $params);

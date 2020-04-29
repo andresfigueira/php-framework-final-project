@@ -103,7 +103,8 @@ class PublicacionController extends SecurityController
 
     public function update()
     {
-        $publicacionId = $_GET['id']; // Esto es lo que necesito para enviar a la query
+        $publicacionId = $_POST['publicacion_id'];
+        
 
         // Validación
         $titulo = $_POST['titulo'];
@@ -154,13 +155,8 @@ class PublicacionController extends SecurityController
 
         $newPublicacion = PublicacionRepository::findById($publicacionId);
 
-        $publicacion['id'] = $newPublicacion;
-        dd($publicacion['id']);
-
-        return new Response('usuario/usuario.profile.php', [
-            'responseSuccess' => [
-                'message' => 'Publicación actualizada correctamente.'
-            ]
-        ]);
+        $publicacionId = $newPublicacion;
+        
+        return new Redirect('/');
     }
 }
