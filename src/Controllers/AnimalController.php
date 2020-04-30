@@ -10,6 +10,7 @@ use Repository\ImagenRepository;
 use Repository\RazaAnimalRepository;
 use Repository\SexoAnimalRepository;
 use Repository\TipoAnimalRepository;
+use Repository\EstadoRepository;
 
 use function Core\dd;
 use function Helpers\emptyToNull;
@@ -98,5 +99,88 @@ class AnimalController extends SecurityController
             'razaAnimalOptions' => $razaAnimalOptions,
             'sexoAnimalOptions' => $sexoAnimalOptions
         ]);
+    }    
+
+    public function updateView()
+    {
+        $estadoOptions = EstadoRepository::findAll();
+        $tipoAnimalOptions = TipoAnimalRepository::findAll();
+        $razaAnimalOptions = RazaAnimalRepository::findAll();
+        $sexoAnimalOptions = SexoAnimalRepository::findAll();
+
+        return new Response('animal/animal.edit.php', [
+            'estadoOptions' => $estadoOptions,
+            'tipoAnimalOptions' => $tipoAnimalOptions,
+            'razaAnimalOptions' => $razaAnimalOptions,
+            'sexoAnimalOptions' => $sexoAnimalOptions,
+        ]);
+    }
+
+    public function update()
+    {
+        $animalId = $_POST['animal_id'];
+        $imagen = $_POST['imagen'];
+        if (GeneralHelper::emptyToNull($imagen)) {
+            $imagen = ImagenRepository::create($imagen);
+        }
+
+        // Validación
+        $nombre = GeneralHelper::emptyToNull($_POST['nombre']);
+        $descripcion = GeneralHelper::emptyToNull($_POST['descripcion']);
+        $fechaNacimientoAnimal = GeneralHelper::emptyToNull($_POST['fecha_nacimiento_animal']);
+        $tipoAnimalId = $_POST['tipo_animal_id'];
+        $razaAnimalId = GeneralHelper::emptyToNull($_POST['raza_animal_id']);
+        $sexoAnimalId = GeneralHelper::emptyToNull($_POST['sexo_animal_id']);        
+        $estadoId = $_POST['estado_id'];
+
+        $params = [
+            'nombre' => $nombre,
+            'descripcion' => $descripcion,
+            'fecha_nacimiento_animal' => $fechaNacimientoAnimal,
+            'tipo_animal_id' => $tipoAnimalId,
+            'raza_animal_id' => $razaAnimalId,
+            'sexo_animal_id' => $sexoAnimalId,
+            'estado_id' => $estadoId,
+            'imagen' => $imagen,
+        ];
+        $constraints = [
+            'tipo_animal_id' => [
+                'required' => true,
+            ],
+            'estado_id' => [
+                'required' => true,
+            ],
+        ];
+
+        $validation = $this->validateParams($params, $constraints);
+
+
+        // Validación incorrecta
+        if (!$validation['valid']) {
+            $responseError = [
+                'errors' => $validation['errors'],
+                'params' => $params,
+            ];
+
+            return new Response('usuario/usuario.edit.php', ['responseError' => $responseError]);
+        }
+
+        AnimalRepository::update(
+            $animalId,
+            $nombre,
+            $descripcion,
+            $fechaNacimientoAnimal,
+            $tipoAnimalId,
+            $razaAnimalId,
+            $sexoAnimalId,
+            $estadoId,
+            $imagen,
+        );
+
+        $newAnimal = AnimalRepository::findById($animalId);
+
+        $animalId = $newAnimal;
+        
+        return new Redirect('/perfil');
     }
 }

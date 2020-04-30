@@ -62,14 +62,20 @@ $imagen = $publicacion['imagen'];
             <?php
                 if ($email == $_SESSION['user']['email']) { ?>
                     <div>
-                    <a class="btn btn-primary btn-sm items-end float-right" href="/publicaciones/borrar?id=<?= $id ?>" role="button">Borrar</a>
+                        <form method="POST" action="/publicaciones/borrar">
+                            <div>
+                                <input type="hidden" name="publicacion_id" value="<?= $id ?>">
+                            </div>
+                            <div>
+                                <button type="submit" onClick="return confirm('¿Estás seguro de borrar esta publicación?')" class="btn btn-danger btn-sm items-end float-right">Borrar</a>
+                            </div>
+                        </form>
                     </div>
                     <div class="ml-2">
-                    <a class="btn btn-primary btn-sm items-end float-right" href="/publicaciones/editar?id=<?= $id ?>" role="button">Editar</a>
+                        <a class="btn btn-primary btn-sm items-end float-right" href="/publicaciones/editar?id=<?= $id ?>" role="button">Editar</a>
                     </div>
             <?php } ?>
         </div>
-
 
     </div>
 

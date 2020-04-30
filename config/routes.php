@@ -45,6 +45,12 @@ $routes = [
         'action' => 'createView',
     ],
     [
+        'url' => '/animales/editar',
+        'methods' => ['GET'],
+        'controller' => 'animal',
+        'action' => 'updateView',
+    ],    
+    [
         'url' => '/publicaciones/crear',
         'methods' => ['GET'],
         'controller' => 'publicacion',
@@ -61,12 +67,6 @@ $routes = [
         'methods' => ['GET'],
         'controller' => 'publicacion',
         'action' => 'updateView',
-    ],
-    [
-        'url' => '/publicaciones/borrar',
-        'methods' => ['GET'],
-        'controller' => 'publicacion',
-        'action' => 'removeConfirmation',
     ],
 
     // POST
@@ -87,6 +87,18 @@ $routes = [
         'methods' => ['POST'],
         'controller' => 'animal',
         'action' => 'create',
+    ],
+    [
+        'url' => '/animales/editar',
+        'methods' => ['POST'],
+        'controller' => 'animal',
+        'action' => 'update',
+    ],
+    [
+        'url' => '/animales/borrar',
+        'methods' => ['POST'],
+        'controller' => 'animal',
+        'action' => 'remove',
     ],
     [
         'url' => '/publicaciones/crear',

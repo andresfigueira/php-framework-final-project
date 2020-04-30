@@ -183,11 +183,11 @@ class PublicacionRepository extends SecurityController
         $params = [
             'publicacion_id' => $publicacionId,
             'titulo' => $titulo,
-            'descripcion' => $descripcion,
-            'referencia' => $referencia,
-            'direccion' => $direccion,
+            'descripcion' => GeneralHelper::emptyToNull($descripcion),
+            'referencia' => GeneralHelper::emptyToNull($referencia),
+            'direccion' => GeneralHelper::emptyToNull($direccion),
             'estado_id' => $estadoId,
-            'provincia_id' => $provinciaId,
+            'provincia_id' => GeneralHelper::emptyToNull($provinciaId),
         ];
 
         $query = '  UPDATE publicacion

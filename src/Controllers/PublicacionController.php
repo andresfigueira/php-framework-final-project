@@ -160,11 +160,6 @@ class PublicacionController extends SecurityController
         return new Redirect('/');
     }
 
-    public function removeConfirmation()
-    {
-        return new Response('publicacion/publicacion.remove.php');
-    }
-
     public function remove()
     {
         $publicacionId = $_POST['publicacion_id'];

@@ -112,6 +112,56 @@ class AnimalRepository extends SecurityController
         return $animal;
     }
 
+    public static function update(
+        $animalId,
+        $nombre,
+        $descripcion,
+        $fechaNacimientoAnimal,
+        $tipoAnimalId,
+        $razaAnimalId,
+        $sexoAnimalId,
+        $estadoId,
+        $imagenId
+        ) {
+        $db = new DatabaseController();
+
+        $fechaNacimientoAnimal = GeneralHelper::emptyToNull($fechaNacimientoAnimal);
+
+        if ($fechaNacimientoAnimal) {
+            $fechaNacimientoAnimal = new DateTime($fechaNacimientoAnimal);
+            $fechaNacimientoAnimal = date_format($fechaNacimientoAnimal, 'Y-m-d');
+        }
+
+        $params = [
+            'animal_id' => $animalId,
+            'nombre' => GeneralHelper::emptyToNull($nombre),
+            'descripcion' => GeneralHelper::emptyToNull($descripcion),
+            'fecha_nacimiento' => $fechaNacimientoAnimal,
+            'tipo_animal_id' => $tipoAnimalId,
+            'raza_animal_id' => GeneralHelper::emptyToNull($razaAnimalId),
+            'sexo_animal_id' => GeneralHelper::emptyToNull($sexoAnimalId),
+            'estado_id' => $estadoId,
+            'imagen_id' => GeneralHelper::emptyToNull($imagenId),
+        ];
+
+        $query = '  UPDATE animal
+                    SET nombre = :nombre,
+                        descripcion = :descripcion,
+                        fecha_nacimiento = :fecha_nacimiento,
+                        tipo_animal_id = :tipo_animal_id,
+                        raza_animal_id = :raza_animal_id,
+                        sexo_animal_id = :sexo_animal_id,
+                        estado_id = :estado_id,
+                        imagen_id = :imagen_id
+                    WHERE id = :animal_id';
+        
+        $animalId = $db->query($query, $params);
+
+        $animal = PublicacionRepository::findById($animalId);
+
+        return $animal;
+    }
+
     private function baseSelectQuery(): String
     {
         $query = 'SELECT
