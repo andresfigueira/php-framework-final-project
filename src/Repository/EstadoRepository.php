@@ -2,6 +2,8 @@
 
 namespace Repository;
 
+use function Core\dd;
+
 use Controllers\DatabaseController;
 use Controllers\SecurityController;
 
@@ -16,5 +18,21 @@ class EstadoRepository extends SecurityController
         );
 
         return $estado;
+    }
+
+    public static function findIdByName($nombreEstado){
+        $db = new DatabaseController();
+        $params = [
+            'nombre' => $nombreEstado,
+        ];
+
+        $estado = $db->selectOne(
+            'SELECT id
+            FROM estado
+            WHERE nombre = :nombre',
+            $params
+        );
+
+        return $estado['id'];
     }
 }

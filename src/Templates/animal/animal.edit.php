@@ -2,6 +2,7 @@
 
 use function Core\dd;
 use Repository\AnimalRepository;
+use Repository\UserRepository;
 
 $id = $_GET['id'];
 $animal = AnimalRepository::findById($id);
@@ -19,7 +20,7 @@ $imagen_id = $animal['imagen_id'];
 
 <div class="row p-4">
     <div class="col-12 col-md-6 col-lg-4 mt-4 mt-md-0">
-        <h1 class="lead mb-4">Editar publicacion</h1>
+        <h1 class="lead mb-4">Editar animal</h1>
 
         <form method="POST" action="/animales/editar">
             <div>

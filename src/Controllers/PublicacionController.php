@@ -18,21 +18,9 @@ class PublicacionController extends SecurityController
     {
         $busqueda = $_GET['busqueda'] ? $_GET['busqueda'] : '';
 
-        $publicaciones = PublicacionRepository::findByBusqueda($busqueda);
+        $publicaciones = PublicacionRepository::findActivesByBusqueda($busqueda);
 
         return new Response('publicacion/publicacion.index.php', ['publicaciones' => $publicaciones]);
-    }
-
-    public function publication()
-    {
-        $id = $_SESSION['user']['id'];
-        $publicaciones = PublicacionRepository::findByUserId($id);
-        $animales = AnimalRepository::findByUserId($id);
-
-        return new Response('usuario/usuario.profile.php', [
-            'publicaciones' => $publicaciones,
-            'animales' => $animales,
-        ]);
     }
 
     public function updateView()
@@ -92,7 +80,7 @@ class PublicacionController extends SecurityController
 
     public function createView()
     {
-        $userAnimalOptions = AnimalRepository::findByUserId($_SESSION['user']['id']);
+        $userAnimalOptions = AnimalRepository::findActivesByUserId($_SESSION['user']['id']);
         $provinciaOptions = ProvinciaRepository::findAll();
 
         return new Response('publicacion/publicacion.create.php', [
@@ -165,6 +153,19 @@ class PublicacionController extends SecurityController
         $publicacionId = $_POST['publicacion_id'];
 
         PublicacionRepository::remove(
+            $publicacionId,
+        );
+
+        return new Redirect('/');
+    }
+
+    public function inactivate()
+    {
+        $estado = 'Inactivo';
+        $publicacionId = $_POST['publicacion_id'];
+
+        PublicacionRepository::changeStatus(
+            $estado,
             $publicacionId,
         );
 

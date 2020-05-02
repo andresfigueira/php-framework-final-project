@@ -12,6 +12,16 @@ class Navigation extends SecurityController
     {
         $items = [
             [
+                'label' => 'Subir Publicacion',
+                'url' => '/publicaciones/crear',
+                'auth' => true,
+            ],
+            [
+                'label' => 'Crear Animal',
+                'url' => '/animales/crear',
+                'auth' => true,
+            ],
+            [
                 'label' => 'Publicaciones',
                 'url' => '/',
                 'auth' => false,

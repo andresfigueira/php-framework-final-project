@@ -11,6 +11,8 @@ use Repository\RazaAnimalRepository;
 use Repository\SexoAnimalRepository;
 use Repository\TipoAnimalRepository;
 use Repository\EstadoRepository;
+use Repository\PublicacionRepository;
+use Repository\UserRepository;
 
 use function Core\dd;
 use function Helpers\emptyToNull;
@@ -119,9 +121,17 @@ class AnimalController extends SecurityController
     public function update()
     {
         $animalId = $_POST['animal_id'];
-        $imagen = $_POST['imagen'];
-        if (GeneralHelper::emptyToNull($imagen)) {
-            $imagen = ImagenRepository::create($imagen);
+
+        $imagen = GeneralHelper::emptyToNull($_POST['imagen']);
+        $imagenId = GeneralHelper::emptyToNull($_POST['imagen_id']);
+
+        if ($imagen) {
+            $imagenBBDD = ImagenRepository::findByUrl($imagen);
+            if ($imagenBBDD) {
+                $imagenId = $imagenBBDD['id'];
+            } else {
+                $imagenId = ImagenRepository::create($imagen);
+            }
         }
 
         // Validación
@@ -141,7 +151,7 @@ class AnimalController extends SecurityController
             'raza_animal_id' => $razaAnimalId,
             'sexo_animal_id' => $sexoAnimalId,
             'estado_id' => $estadoId,
-            'imagen' => $imagen,
+            'imagen' => $imagenId,
         ];
         $constraints = [
             'tipo_animal_id' => [
@@ -174,13 +184,42 @@ class AnimalController extends SecurityController
             $razaAnimalId,
             $sexoAnimalId,
             $estadoId,
-            $imagen,
+            $imagenId,
         );
 
         $newAnimal = AnimalRepository::findById($animalId);
 
         $animalId = $newAnimal;
         
+        return new Redirect('/perfil');
+    }
+
+    public function remove()
+    {
+        $animalId = $_POST['animal_id'];
+
+        AnimalRepository::remove(
+            $animalId,
+        );
+
+        return new Redirect('/perfil');
+    }
+
+    public function inactivate()
+    {
+        $estado = 'Inactivo';
+        $animalId = $_POST['animal_id'];
+        $publicacionesConElAnimal = PublicacionRepository::findAllByAnimalId($animalId);
+
+        AnimalRepository::changeStatus(
+            $estado,
+            $animalId,
+        );
+
+        foreach ($publicacionesConElAnimal as $publicacion) {
+            PublicacionRepository::changeStatus($estado, $publicacion['id']);
+        }
+
         return new Redirect('/perfil');
     }
 }

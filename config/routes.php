@@ -124,6 +124,18 @@ $routes = [
         'controller' => 'publicacion',
         'action' => 'remove',
     ],
+    [
+        'url' => '/publicaciones/inactivar',
+        'methods' => ['POST'],
+        'controller' => 'publicacion',
+        'action' => 'inactivate',
+    ],
+    [
+        'url' => '/animales/inactivar',
+        'methods' => ['POST'],
+        'controller' => 'animal',
+        'action' => 'inactivate',
+    ],
 ];
 
 defined('ROUTES')

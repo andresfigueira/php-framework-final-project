@@ -18,6 +18,23 @@ class ImagenRepository extends SecurityController
         return $imagenes;
     }
 
+    public static function findByUrl(String $url){
+        $db = new DatabaseController();
+
+        $params = [
+            'url' => $url
+        ];
+
+        $imagen = $db->selectOne(
+            'SELECT *
+            FROM imagen
+            WHERE url = :url',
+            $params
+        );
+
+        return $imagen;
+    }
+
     public static function create(String $url){
         $db = new DatabaseController();
 

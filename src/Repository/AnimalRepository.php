@@ -42,7 +42,7 @@ class AnimalRepository extends SecurityController
         return $animal;
     }
 
-    public static function findByUserId($id)
+    public static function findActivesByUserId($id)
     {
         $a = new AnimalRepository();
         $db = new DatabaseController();
@@ -54,7 +54,8 @@ class AnimalRepository extends SecurityController
         $animal = $db->select(
             implode(' ', [
                 $a->baseSelectQuery(),
-                'WHERE usuario_id = :usuario'
+                'WHERE usuario_id = :usuario
+                    AND estado_id = 1'
             ]),
             $params
         );
@@ -162,6 +163,22 @@ class AnimalRepository extends SecurityController
         return $animal;
     }
 
+    public static function remove(
+        $animalId
+    ) {
+        $db = new DatabaseController();
+
+        $params = [
+            'animal_id' => $animalId,
+        ];
+
+        $query = '  DELETE 
+                    FROM animal
+                    WHERE id = :animal_id';
+        
+        $publicacionId = $db->query($query, $params);
+    }
+
     private function baseSelectQuery(): String
     {
         $query = 'SELECT
@@ -177,5 +194,25 @@ class AnimalRepository extends SecurityController
             LEFT JOIN imagen i ON a.imagen_id = i.id';
 
         return $query;
+    }
+
+    public static function changeStatus(
+        $nombreEstado, 
+        $animalId
+    ) {
+
+        $db = new DatabaseController();
+        $estado = EstadoRepository::findIdByName($nombreEstado);
+
+        $params = [
+            'estado_id' => $estado,
+            'animal_id' => $animalId,
+        ];
+
+        $query = '  UPDATE animal
+                    SET estado_id = :estado_id
+                    WHERE id = :animal_id';
+        
+        $p = $db->query($query, $params);
     }
 }

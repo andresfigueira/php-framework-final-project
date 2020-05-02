@@ -40,7 +40,6 @@ $showPublicaciones = !$showAnimales;
     </div>
 </div>
 
-
 <ul class="navbar-nav flex flex-row">
     <li class="nav-item">
         <a class="nav-link" href="/perfil?publicaciones=1">Publicaciones</a>

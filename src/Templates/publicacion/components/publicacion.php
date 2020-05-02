@@ -1,5 +1,6 @@
 <?php
 
+use function Core\dd;
 use Helpers\GeneralHelper;
 
 $id = $publicacion['id'];
@@ -16,6 +17,7 @@ $tipoAnimal = $publicacion['tipo_animal'];
 $razaAnimal = $publicacion['raza_animal'];
 $sexoAnimal = $publicacion['sexo_animal'];
 $imagen = $publicacion['imagen'];
+
 ?>
 
 <div class="jumbotron p-4 w-full">
@@ -62,7 +64,7 @@ $imagen = $publicacion['imagen'];
             <?php
                 if ($email == $_SESSION['user']['email']) { ?>
                     <div>
-                        <form method="POST" action="/publicaciones/borrar">
+                        <form method="POST" action="/publicaciones/inactivar">
                             <div>
                                 <input type="hidden" name="publicacion_id" value="<?= $id ?>">
                             </div>

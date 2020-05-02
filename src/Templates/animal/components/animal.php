@@ -1,6 +1,7 @@
 <?php
 
 use Helpers\GeneralHelper;
+use Repository\PublicacionRepository;
 
 use function Core\dd;
 
@@ -43,12 +44,13 @@ $imagen = $animal['imagen'] ? $animal['imagen'] : GeneralHelper::defaultBlankIma
         <?php
                 if ($email == $_SESSION['user']['email']) { ?>
                     <div>
-                        <form method="POST" action="/animales/borrar">
+                        <form method="POST" action="/animales/inactivar">
                             <div>
                                 <input type="hidden" name="animal_id" value="<?= $id ?>">
+                                <input type="hidden" name="imagen_id" value="<?= $id ?>">
                             </div>
                             <div>
-                                <button type="submit" onClick="return confirm('¿Estás seguro de borrar esta publicación?')" class="btn btn-danger btn-sm items-end float-right">Borrar</a>
+                                <button type="submit" onClick="return confirm('¿Estás seguro de borrar este animal?')" class="btn btn-danger btn-sm items-end float-right">Borrar</a>
                             </div>
                         </form>
                     </div>
