@@ -22,6 +22,13 @@ class SecurityController extends DatabaseController
         $this->checkSession();
     }
 
+    public function redirectUnauthorized()
+    {
+        if (!$this->isLoggedIn()) {
+            return new Redirect('/404');
+        }
+    }
+
     private function checkSession(): void
     {
         if (isset($_SESSION['user'])) {

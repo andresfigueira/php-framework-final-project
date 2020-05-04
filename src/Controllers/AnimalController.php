@@ -103,7 +103,7 @@ class AnimalController extends SecurityController
             'razaAnimalOptions' => $razaAnimalOptions,
             'sexoAnimalOptions' => $sexoAnimalOptions
         ]);
-    }    
+    }
 
     public function updateView()
     {
@@ -142,7 +142,7 @@ class AnimalController extends SecurityController
         $fechaNacimientoAnimal = GeneralHelper::emptyToNull($_POST['fecha_nacimiento_animal']);
         $tipoAnimalId = $_POST['tipo_animal_id'];
         $razaAnimalId = GeneralHelper::emptyToNull($_POST['raza_animal_id']);
-        $sexoAnimalId = GeneralHelper::emptyToNull($_POST['sexo_animal_id']);        
+        $sexoAnimalId = GeneralHelper::emptyToNull($_POST['sexo_animal_id']);
         $estadoId = $_POST['estado_id'];
 
         $params = [
@@ -192,7 +192,7 @@ class AnimalController extends SecurityController
         $newAnimal = AnimalRepository::findById($animalId);
 
         $animalId = $newAnimal;
-        
+
         return new Redirect('/perfil');
     }
 

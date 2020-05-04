@@ -15,6 +15,11 @@ use function Core\dd;
 
 class UserController extends SecurityController
 {
+    public function __construct()
+    {
+        SecurityController::redirectUnauthorized();
+    }
+
     public function profile()
     {
         $id = $_SESSION['user']['id'];
