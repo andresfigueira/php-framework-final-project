@@ -12,6 +12,8 @@ $fechaNacimiento = $animal['fecha_nacimiento'];
 $tipoAnimal = $animal['tipo_animal'];
 $razaAnimal = $animal['raza_animal'];
 $sexoAnimal = $animal['sexo_animal'];
+$email = $animal['email'];
+$nombreUsuario = $animal['nombre_usuario'];
 $imagen = $animal['imagen'] ? $animal['imagen'] : GeneralHelper::defaultBlankImage();
 
 ?>
@@ -26,7 +28,7 @@ $imagen = $animal['imagen'] ? $animal['imagen'] : GeneralHelper::defaultBlankIma
             <div class="flex flex-col w-full h-full mt-2 justify-between sm:ml-2 sm:mt-0">
                 <div class="flex flex-col sm:flex-row sm:justify-between">
                     <h5 class="mt-2">
-                        <?= $nombre ?>
+                        <a class="no-underline text-black" href="/animales/id?id=<?= $id ?>"><?= $nombre ?></a>
                     </h5>
 
                     <div>
@@ -41,22 +43,27 @@ $imagen = $animal['imagen'] ? $animal['imagen'] : GeneralHelper::defaultBlankIma
         </div>
 
         <div class="inline-flex flex-col sm:flex-row sm:justify-end">
-        <?php
-                if ($email == $_SESSION['user']['email']) { ?>
-                    <div>
-                        <form method="POST" action="/animales/inactivar">
-                            <div>
-                                <input type="hidden" name="animal_id" value="<?= $id ?>">
-                                <input type="hidden" name="imagen_id" value="<?= $id ?>">
-                            </div>
-                            <div>
-                                <button type="submit" onClick="return confirm('¿Estás seguro de borrar este animal?')" class="btn btn-danger btn-sm items-end float-right">Borrar</a>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="ml-2">
-                        <a class="btn btn-primary btn-sm items-end float-right" href="/animales/editar?id=<?= $id ?>" role="button">Editar</a>
-                    </div>
+            <?php if ($email != $_SESSION['user']['email']) { ?>
+                <div>
+                    <a class="btn btn-primary btn-sm items-end float-right" href="mailto:<?= $email ?>" role="button">Contactar a <?= $nombreUsuario ?></a>
+                </div>
+            <?php }
+
+            if ($email == $_SESSION['user']['email']) { ?>
+                <div>
+                    <form method="POST" action="/animales/inactivar">
+                        <div>
+                            <input type="hidden" name="animal_id" value="<?= $id ?>">
+                            <input type="hidden" name="imagen_id" value="<?= $id ?>">
+                        </div>
+                        <div>
+                            <button type="submit" onClick="return confirm('¿Estás seguro de borrar este animal?')" class="btn btn-danger btn-sm items-end float-right">Borrar</a>
+                        </div>
+                    </form>
+                </div>
+                <div class="ml-2">
+                    <a class="btn btn-primary btn-sm items-end float-right" href="/animales/editar?id=<?= $id ?>" role="button">Editar</a>
+                </div>
             <?php } ?>
         </div>
     </div>

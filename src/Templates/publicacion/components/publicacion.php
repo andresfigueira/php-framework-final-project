@@ -11,6 +11,7 @@ $direccion = $publicacion['direccion'];
 $provincia = $publicacion['provincia'];
 $nombreUsuario = $publicacion['nombre_usuario'];
 $email = $publicacion['email'];
+$animalId = $publicacion['animal_id'];
 $nombreAnimal = $publicacion['nombre_animal'];
 $descripcionAnimal = $publicacion['descripcion_animal'];
 $tipoAnimal = $publicacion['tipo_animal'];
@@ -30,7 +31,7 @@ $imagen = $publicacion['imagen'];
             <div class="flex flex-col w-full h-full mt-2 justify-between sm:ml-2 sm:mt-0">
                 <div class="flex flex-col sm:flex-row sm:justify-between">
                     <h5 class="mt-2">
-                        <?= $titulo ?>
+                        <a class="no-underline text-black" href="/publicaciones/id?id=<?= $id ?>"><?= $titulo ?></a>
                         <small class="text-muted">(<?= $provincia ?>)</small>
                     </h5>
 
@@ -48,34 +49,33 @@ $imagen = $publicacion['imagen'];
         <div class="inline-flex flex-col sm:flex-row sm:justify-between items-end">
             <div class="mr-auto">
                 <h6 class="mt-2">
-                    <?= $nombreAnimal ?>
+                    <a class="no-underline text-black" href="/animales/id?id=<?= $animalId ?>"><?= $nombreAnimal ?></a>
                     <small class="text-muted">(<?= $referencia ?>)</small>
                 </h6>
                 <small class="text-muted"><?= $descripcionAnimal ?></small>
             </div>
-            
-            <?php
-            if ($email != $_SESSION['user']['email']) { ?>
+
+            <?php if ($email != $_SESSION['user']['email']) { ?>
                 <div>
                     <a class="btn btn-primary btn-sm items-end float-right" href="mailto:<?= $email ?>" role="button">Contactar a <?= $nombreUsuario ?></a>
                 </div>
             <?php } ?>
-            
+
             <?php
-                if ($email == $_SESSION['user']['email']) { ?>
-                    <div>
-                        <form method="POST" action="/publicaciones/inactivar">
-                            <div>
-                                <input type="hidden" name="publicacion_id" value="<?= $id ?>">
-                            </div>
-                            <div>
-                                <button type="submit" onClick="return confirm('¿Estás seguro de borrar esta publicación?')" class="btn btn-danger btn-sm items-end float-right">Borrar</a>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="ml-2">
-                        <a class="btn btn-primary btn-sm items-end float-right" href="/publicaciones/editar?id=<?= $id ?>" role="button">Editar</a>
-                    </div>
+            if ($email == $_SESSION['user']['email']) { ?>
+                <div>
+                    <form method="POST" action="/publicaciones/inactivar">
+                        <div>
+                            <input type="hidden" name="publicacion_id" value="<?= $id ?>">
+                        </div>
+                        <div>
+                            <button type="submit" onClick="return confirm('¿Estás seguro de borrar esta publicación?')" class="btn btn-danger btn-sm items-end float-right">Borrar</a>
+                        </div>
+                    </form>
+                </div>
+                <div class="ml-2">
+                    <a class="btn btn-primary btn-sm items-end float-right" href="/publicaciones/editar?id=<?= $id ?>" role="button">Editar</a>
+                </div>
             <?php } ?>
         </div>
 

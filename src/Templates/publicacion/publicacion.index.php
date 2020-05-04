@@ -1,10 +1,18 @@
+<?php
+
+use Controllers\SecurityController;
+
+?>
+
 <div class="p-4">
     <h3>Publicaciones</h3>
 
     <form method="GET" action="/">
         <div class="flex flex-col sm:flex-row sm:items-center">
             <div>
-                <input class="form-control" name="busqueda" placeholder="Búsqueda" value="<?= $_GET['busqueda'] ?>">
+                <input class="form-control" name="busqueda" placeholder="Búsqueda" value="
+
+<?= $_GET['busqueda'] ?>">
             </div>
 
             <div class="w-full my-2 sm:ml-2 sm:my-0 sm:w-auto">
@@ -12,6 +20,10 @@
             </div>
         </div>
     </form>
+
+    <?php if (SecurityController::isLoggedIn()) : ?>
+        <a class="btn btn-primary btn-sm mb-2" href="/publicaciones/crear" role="button">Crear publicación</a>
+    <?php endif ?>
 
     <?php
     foreach ($publicaciones as $publicacion) {

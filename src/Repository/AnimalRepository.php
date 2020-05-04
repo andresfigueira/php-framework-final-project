@@ -11,6 +11,25 @@ use function Core\dd;
 
 class AnimalRepository extends SecurityController
 {
+    public static function findActiveById($id)
+    {
+        $a = new AnimalRepository();
+        $db = new DatabaseController();
+        $params = [
+            'id' => $id,
+        ];
+
+        $animal = $db->selectOne(
+            implode(' ', [
+                $a->baseSelectQuery(),
+                "WHERE a.id = :id
+                AND a.estado_id = 1"
+            ]),
+            $params
+        );
+
+        return $animal;
+    }
     public static function findById($id)
     {
         $a = new AnimalRepository();
@@ -123,7 +142,7 @@ class AnimalRepository extends SecurityController
         $sexoAnimalId,
         $estadoId,
         $imagenId
-        ) {
+    ) {
         $db = new DatabaseController();
 
         $fechaNacimientoAnimal = GeneralHelper::emptyToNull($fechaNacimientoAnimal);
@@ -155,7 +174,7 @@ class AnimalRepository extends SecurityController
                         estado_id = :estado_id,
                         imagen_id = :imagen_id
                     WHERE id = :animal_id';
-        
+
         $animalId = $db->query($query, $params);
 
         $animal = PublicacionRepository::findById($animalId);
@@ -175,7 +194,7 @@ class AnimalRepository extends SecurityController
         $query = '  DELETE 
                     FROM animal
                     WHERE id = :animal_id';
-        
+
         $publicacionId = $db->query($query, $params);
     }
 
@@ -186,8 +205,11 @@ class AnimalRepository extends SecurityController
             i.url AS imagen,
             ta.nombre AS tipo_animal,
             r.nombre AS raza_animal,
-            s.nombre AS sexo_animal
+            s.nombre AS sexo_animal,
+            u.email AS email,
+            CONCAT(u.nombre, " ", u.apellido)  AS nombre_usuario
             FROM animal a
+            INNER JOIN usuario u ON a.usuario_id = u.id
             LEFT JOIN tipo_animal ta ON a.tipo_animal_id = ta.id
             LEFT JOIN raza_animal r ON a.raza_animal_id = r.id
             LEFT JOIN sexo_animal s ON a.sexo_animal_id = s.id
@@ -197,7 +219,7 @@ class AnimalRepository extends SecurityController
     }
 
     public static function changeStatus(
-        $nombreEstado, 
+        $nombreEstado,
         $animalId
     ) {
 
@@ -212,7 +234,7 @@ class AnimalRepository extends SecurityController
         $query = '  UPDATE animal
                     SET estado_id = :estado_id
                     WHERE id = :animal_id';
-        
+
         $p = $db->query($query, $params);
     }
 }

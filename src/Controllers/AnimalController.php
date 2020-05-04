@@ -28,13 +28,15 @@ class AnimalController extends SecurityController
 
     public function show()
     {
-        if (array_key_exists('id', $_GET)) {
-            $id = $_GET['id'];
+        $id = $_GET['id'];
 
-            $animal = AnimalRepository::findById($id);
+        $animal = AnimalRepository::findActiveById($id);
 
-            return new Response('base/base.index.php', ['animal' => $animal]);
+        if (!$id || empty($animal)) {
+            return new Redirect('/404');
         }
+
+        return new Response('animal/animal.show.php', ['animal' => $animal]);
     }
 
     public function create()

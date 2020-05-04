@@ -10,6 +10,25 @@ use function Core\dd;
 
 class PublicacionRepository extends SecurityController
 {
+    public static function findActiveById($id): array
+    {
+        $p = new PublicacionRepository();
+        $db = new DatabaseController();
+        $params = [
+            'id' => $id,
+        ];
+
+        $publicacion = $db->selectOne(
+            implode(' ', [
+                $p->baseSelectQuery(),
+                "WHERE p.id = :id
+                AND p.estado_id = 1"
+            ]),
+            $params
+        );
+
+        return $publicacion;
+    }
     public static function findById($id): array
     {
         $p = new PublicacionRepository();

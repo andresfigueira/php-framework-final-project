@@ -12,23 +12,23 @@ class Navigation extends SecurityController
     {
         $items = [
             [
-                'label' => 'Subir Publicacion',
-                'url' => '/publicaciones/crear',
-                'auth' => true,
-            ],
-            [
-                'label' => 'Crear Animal',
-                'url' => '/animales/crear',
-                'auth' => true,
-            ],
-            [
                 'label' => 'Publicaciones',
                 'url' => '/',
                 'auth' => false,
             ],
             [
-                'label' => 'Acceder',
-                'url' => '/acceder',
+                'label' => 'Mis publicaciones',
+                'url' => '/perfil?publicaciones=1',
+                'auth' => true,
+            ],
+            [
+                'label' => 'Mis animales',
+                'url' => '/perfil?animales=1',
+                'auth' => true,
+            ],
+            [
+                'label' => 'Quiénes somos',
+                'url' => '/quienes-somos',
                 'auth' => false,
                 'hideOnAuth' => true,
             ],
@@ -36,6 +36,17 @@ class Navigation extends SecurityController
                 'label' => 'Perfil',
                 'url' => '/perfil',
                 'auth' => true,
+            ],
+            [
+                'label' => 'Contacto',
+                'url' => 'mailto:andresfigueiram@gmail.com;javierlaso213@gmail.com',
+                'auth' => false,
+            ],
+            [
+                'label' => 'Acceder',
+                'url' => '/acceder',
+                'auth' => false,
+                'hideOnAuth' => true,
             ],
             [
                 'label' => 'Cerrar sesión',

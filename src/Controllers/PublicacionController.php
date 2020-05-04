@@ -89,6 +89,19 @@ class PublicacionController extends SecurityController
         ]);
     }
 
+    public function show()
+    {
+        $id = $_GET['id'];
+
+        $publicacion = PublicacionRepository::findActiveById($id);
+
+        if (!$id || empty($publicacion)) {
+            return new Redirect('/404');
+        }
+
+        return new Response('publicacion/publicacion.show.php', ['publicacion' => $publicacion]);
+    }
+
     public function update()
     {
         $publicacionId = $_POST['publicacion_id'];

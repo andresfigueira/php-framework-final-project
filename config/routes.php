@@ -68,6 +68,24 @@ $routes = [
         'controller' => 'publicacion',
         'action' => 'updateView',
     ],
+    [
+        'url' => '/publicaciones/id',
+        'methods' => ['GET'],
+        'controller' => 'publicacion',
+        'action' => 'show',
+    ],
+    [
+        'url' => '/animales/id',
+        'methods' => ['GET'],
+        'controller' => 'animal',
+        'action' => 'show',
+    ],
+    [
+        'url' => '/quienes-somos',
+        'methods' => ['GET'],
+        'controller' => 'about',
+        'action' => 'index',
+    ],
 
     // POST
     [

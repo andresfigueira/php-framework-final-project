@@ -6,6 +6,10 @@ $nombre = $_SESSION['user']['nombre'];
 $apellido = $_SESSION['user']['apellido'];
 $email = $_SESSION['user']['email'];
 $imagen = $_SESSION['user']['imagen'];
+$direccion = $_SESSION['user']['direccion'];
+$provincia = $_SESSION['user']['provincia'];
+$telefono_1 = $_SESSION['user']['telefono_1'];
+$telefono_2 = $_SESSION['user']['telefono_2'];
 
 $showAnimales = $_GET['animales'] == 1;
 $showPublicaciones = !$showAnimales;
@@ -28,13 +32,16 @@ $showPublicaciones = !$showAnimales;
         <div class="w-full h-full sm:w-64">
             <img src="<?= $imagen ?>" />
         </div>
-        <div class="ml-2">
+        <div class="ml-2 w-full">
             <h1 class="lead mb-4"><?= $nombre ?> <?= $apellido ?></h1>
-            <div class="flex flex-col items-center sm:justify-between sm:flex-row">
-                <p><?= $email ?></p>
-            </div>
-            <div>
-                <a class="btn btn-primary btn-sm items-end" href="mailto:<?= $email ?>" role="button">Contactar</a>
+            <p><?= $email ?></p>
+
+
+            <p><?= $direccion ? "$provincia, $direccion" : $provincia ?></p>
+            <small><?= $telefono_1 ?></small>
+            <small><?= $telefono_2 ?></small>
+            <div class="w-full">
+                <a class="btn btn-primary btn-sm float-right" href="mailto:<?= $email ?>" role="button">Contactar</a>
             </div>
         </div>
     </div>
@@ -49,19 +56,23 @@ $showPublicaciones = !$showAnimales;
     </li>
 </ul>
 
-<?php
-if ($showPublicaciones) {
+<?php if ($showPublicaciones) { ?>
+    <a class="btn btn-primary btn-sm mb-2" href="/publicaciones/crear" role="button">Crear publicación</a>
+
+    <?php
     // Publicaciones
     foreach ((array) $publicaciones as $publicacion) {
         include dirname(__FILE__) . '/../publicacion/components/publicacion.php';
     }
 
-    if (empty($publicaciones)) {
-?>
-        <h6 class="lead mt-2">No se encontraron publicaciones.</h6>
+    if (empty($publicaciones)) { ?>
+        <h6 class="lead">No se encontraron publicaciones.</h6>
     <?php
     }
-} else if ($showAnimales) {
+} else if ($showAnimales) { ?>
+    <a class="btn btn-primary btn-sm mb-2" href="/animales/crear" role="button">Crear animal</a>
+
+    <?php
     //  Animales
     foreach ((array) $animales as $animal) {
         include dirname(__FILE__) . '/../animal/components/animal.php';
@@ -69,7 +80,7 @@ if ($showPublicaciones) {
 
     if (empty($animales)) {
     ?>
-        <h6 class="lead mt-2">No se encontraron animales.</h6>
+        <h6 class="lead">No se encontraron animales.</h6>
 <?php
     }
 }
