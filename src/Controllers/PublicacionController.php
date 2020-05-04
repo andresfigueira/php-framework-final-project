@@ -25,6 +25,8 @@ class PublicacionController extends SecurityController
 
     public function updateView()
     {
+        SecurityController::redirectUnauthorized();
+
         $provinciaOptions = ProvinciaRepository::findAll();
         $estadoOptions = EstadoRepository::findAll();
 
@@ -80,6 +82,8 @@ class PublicacionController extends SecurityController
 
     public function createView()
     {
+        SecurityController::redirectUnauthorized();
+
         $userAnimalOptions = AnimalRepository::findActivesByUserId($_SESSION['user']['id']);
         $provinciaOptions = ProvinciaRepository::findAll();
 

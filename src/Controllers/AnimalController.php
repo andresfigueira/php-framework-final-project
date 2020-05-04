@@ -41,6 +41,8 @@ class AnimalController extends SecurityController
 
     public function create()
     {
+        SecurityController::redirectUnauthorized();
+
         $imagen = $_POST['imagen'];
         if (GeneralHelper::emptyToNull($imagen)) {
             $imagen = ImagenRepository::create($imagen);
@@ -107,6 +109,8 @@ class AnimalController extends SecurityController
 
     public function updateView()
     {
+        SecurityController::redirectUnauthorized();
+
         $estadoOptions = EstadoRepository::findAll();
         $tipoAnimalOptions = TipoAnimalRepository::findAll();
         $razaAnimalOptions = RazaAnimalRepository::findAll();
