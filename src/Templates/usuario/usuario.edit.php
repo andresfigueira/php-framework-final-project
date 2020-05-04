@@ -1,6 +1,8 @@
 <?php
 
 use function Core\dd;
+use Repository\UserRepository;
+use Repository\ImagenRepository;
 
 $nombre = $_SESSION['user']['nombre'];
 $apellido = $_SESSION['user']['apellido'];
@@ -11,6 +13,7 @@ $telefono_2 = $_SESSION['user']['telefono_2'];
 $provincia_id = $_SESSION['user']['provincia_id'];
 $imagen = $_SESSION['user']['imagen'];
 $imagen_id = $_SESSION['user']['imagen_id'];
+
 
 ?>
 

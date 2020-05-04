@@ -1,9 +1,11 @@
 <?php
 
 use Helpers\GeneralHelper;
+use Repository\PublicacionRepository;
 
 use function Core\dd;
 
+$id = $animal['id'];
 $nombre = $animal['nombre'];
 $descripcion = $animal['descripcion'];
 $fechaNacimiento = $animal['fecha_nacimiento'];
@@ -36,6 +38,26 @@ $imagen = $animal['imagen'] ? $animal['imagen'] : GeneralHelper::defaultBlankIma
                 <p class="text-muted mb-2"><?= $descripcion ?></p>
                 <p class="mb-2"><?= $fechaNacimiento ?></p>
             </div>
+        </div>
+
+        <div class="inline-flex flex-col sm:flex-row sm:justify-end">
+        <?php
+                if ($email == $_SESSION['user']['email']) { ?>
+                    <div>
+                        <form method="POST" action="/animales/inactivar">
+                            <div>
+                                <input type="hidden" name="animal_id" value="<?= $id ?>">
+                                <input type="hidden" name="imagen_id" value="<?= $id ?>">
+                            </div>
+                            <div>
+                                <button type="submit" onClick="return confirm('¿Estás seguro de borrar este animal?')" class="btn btn-danger btn-sm items-end float-right">Borrar</a>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="ml-2">
+                        <a class="btn btn-primary btn-sm items-end float-right" href="/animales/editar?id=<?= $id ?>" role="button">Editar</a>
+                    </div>
+            <?php } ?>
         </div>
     </div>
 

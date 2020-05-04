@@ -1,7 +1,9 @@
 <?php
 
+use function Core\dd;
 use Helpers\GeneralHelper;
 
+$id = $publicacion['id'];
 $titulo = $publicacion['titulo'];
 $descripcion = $publicacion['descripcion'];
 $referencia = $publicacion['referencia'];
@@ -15,6 +17,7 @@ $tipoAnimal = $publicacion['tipo_animal'];
 $razaAnimal = $publicacion['raza_animal'];
 $sexoAnimal = $publicacion['sexo_animal'];
 $imagen = $publicacion['imagen'];
+
 ?>
 
 <div class="jumbotron p-4 w-full">
@@ -42,19 +45,40 @@ $imagen = $publicacion['imagen'];
             </div>
         </div>
 
-        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end">
-            <div>
+        <div class="inline-flex flex-col sm:flex-row sm:justify-between items-end">
+            <div class="mr-auto">
                 <h6 class="mt-2">
                     <?= $nombreAnimal ?>
                     <small class="text-muted">(<?= $referencia ?>)</small>
                 </h6>
                 <small class="text-muted"><?= $descripcionAnimal ?></small>
             </div>
-
-            <div>
-                <a class="btn btn-primary btn-sm items-end" href="mailto:<?= $email ?>" role="button">Contactar a <?= $nombreUsuario ?></a>
-            </div>
+            
+            <?php
+            if ($email != $_SESSION['user']['email']) { ?>
+                <div>
+                    <a class="btn btn-primary btn-sm items-end float-right" href="mailto:<?= $email ?>" role="button">Contactar a <?= $nombreUsuario ?></a>
+                </div>
+            <?php } ?>
+            
+            <?php
+                if ($email == $_SESSION['user']['email']) { ?>
+                    <div>
+                        <form method="POST" action="/publicaciones/inactivar">
+                            <div>
+                                <input type="hidden" name="publicacion_id" value="<?= $id ?>">
+                            </div>
+                            <div>
+                                <button type="submit" onClick="return confirm('¿Estás seguro de borrar esta publicación?')" class="btn btn-danger btn-sm items-end float-right">Borrar</a>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="ml-2">
+                        <a class="btn btn-primary btn-sm items-end float-right" href="/publicaciones/editar?id=<?= $id ?>" role="button">Editar</a>
+                    </div>
+            <?php } ?>
         </div>
+
     </div>
 
 </div>

@@ -44,7 +44,7 @@ class PublicacionRepository extends SecurityController
         return $publicaciones;
     }
 
-    public static function findByBusqueda(String $busqueda): array
+    public static function findActivesByBusqueda(String $busqueda): array
     {
         $p = new PublicacionRepository();
         $db = new DatabaseController();
@@ -63,14 +63,15 @@ class PublicacionRepository extends SecurityController
         $publicaciones = $db->select(
             implode(' ', [
                 $p->baseSelectQuery(),
-                "WHERE p.titulo LIKE :titulo
+                "WHERE (p.titulo LIKE :titulo
                     OR a.nombre LIKE :nombreAnimal
                     OR pr.nombre LIKE :provincia
                     OR ra.nombre LIKE :raza
                     OR ta.nombre LIKE :tipoAnimal
                     OR sa.nombre LIKE :sexoAnimal
                     OR u.nombre LIKE :nombreUsuario 
-                    OR p.referencia LIKE :referencia
+                    OR p.referencia LIKE :referencia)
+                AND p.estado_id = 1
                 ORDER BY creacion DESC, id DESC"
             ]),
             $params
@@ -79,7 +80,7 @@ class PublicacionRepository extends SecurityController
         return $publicaciones;
     }
 
-    public static function findByUserId($userId): array
+    public static function findActivesByUserId($userId): array
     {
         $p = new PublicacionRepository();
         $db = new DatabaseController();
@@ -91,6 +92,7 @@ class PublicacionRepository extends SecurityController
             implode(' ', [
                 $p->baseSelectQuery(),
                 "WHERE p.usuario_id = :usuario_id
+                AND p.estado_id = 1
                 ORDER BY creacion DESC, id DESC"
             ]),
             $params
@@ -169,4 +171,101 @@ class PublicacionRepository extends SecurityController
 
         return $publicacion;
     }
+
+    public static function update(
+        $publicacionId,
+        $titulo,
+        $descripcion,
+        $referencia,
+        $direccion,
+        $estadoId,
+        $provinciaId
+    ) {
+        $db = new DatabaseController();
+        $params = [
+            'publicacion_id' => $publicacionId,
+            'titulo' => $titulo,
+            'descripcion' => GeneralHelper::emptyToNull($descripcion),
+            'referencia' => GeneralHelper::emptyToNull($referencia),
+            'direccion' => GeneralHelper::emptyToNull($direccion),
+            'estado_id' => $estadoId,
+            'provincia_id' => GeneralHelper::emptyToNull($provinciaId),
+        ];
+
+        $query = '  UPDATE publicacion
+                    SET titulo = :titulo,
+                        descripcion = :descripcion,
+                        referencia = :referencia,
+                        direccion = :direccion,
+                        estado_id = :estado_id,
+                        provincia_id = :provincia_id
+                    WHERE id = :publicacion_id';
+        
+        $publicacionId = $db->query($query, $params);
+
+        $publicacion = PublicacionRepository::findById($publicacionId);
+
+        return $publicacion;
+    }
+
+    public static function remove(
+        $publicacionId
+    ) {
+        $db = new DatabaseController();
+
+        $params = [
+            'publicacion_id' => $publicacionId,
+        ];
+
+        $query = '  DELETE 
+                    FROM publicacion
+                    WHERE id = :publicacion_id';
+        
+        $publicacionId = $db->query($query, $params);
+    }
+
+    public static function changeStatus(
+        $nombreEstado, 
+        $publicacionId
+    ) {
+
+        $db = new DatabaseController();
+        $estado = EstadoRepository::findIdByName($nombreEstado);
+
+        $params = [
+            'estado_id' => $estado,
+            'publicacion_id' => $publicacionId,
+        ];
+
+        $query = '  UPDATE publicacion
+                    SET estado_id = :estado_id
+                    WHERE id = :publicacion_id';
+        
+        $p = $db->query($query, $params);
+    }
+
+    public static function findAllByAnimalId(
+        $animalId
+    ) {
+        $p = new PublicacionRepository();
+        $db = new DatabaseController();
+
+        $params = [
+            'animal_id' => $animalId,
+        ];
+
+        $publicaciones = $db->select(
+            implode(' ', [
+                $p->baseSelectQuery(),
+                "WHERE animal_id = :animal_id
+                ORDER BY creacion DESC, id DESC"
+            ]),
+            $params
+        );
+
+        return $publicaciones;
+
+
+    }
+
 }

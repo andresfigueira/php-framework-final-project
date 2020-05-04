@@ -45,6 +45,12 @@ $routes = [
         'action' => 'createView',
     ],
     [
+        'url' => '/animales/editar',
+        'methods' => ['GET'],
+        'controller' => 'animal',
+        'action' => 'updateView',
+    ],    
+    [
         'url' => '/publicaciones/crear',
         'methods' => ['GET'],
         'controller' => 'publicacion',
@@ -54,6 +60,12 @@ $routes = [
         'url' => '/perfil/editar',
         'methods' => ['GET'],
         'controller' => 'user',
+        'action' => 'updateView',
+    ],
+    [
+        'url' => '/publicaciones/editar',
+        'methods' => ['GET'],
+        'controller' => 'publicacion',
         'action' => 'updateView',
     ],
 
@@ -77,6 +89,18 @@ $routes = [
         'action' => 'create',
     ],
     [
+        'url' => '/animales/editar',
+        'methods' => ['POST'],
+        'controller' => 'animal',
+        'action' => 'update',
+    ],
+    [
+        'url' => '/animales/borrar',
+        'methods' => ['POST'],
+        'controller' => 'animal',
+        'action' => 'remove',
+    ],
+    [
         'url' => '/publicaciones/crear',
         'methods' => ['POST'],
         'controller' => 'publicacion',
@@ -87,6 +111,30 @@ $routes = [
         'methods' => ['POST'],
         'controller' => 'user',
         'action' => 'update',
+    ],
+    [
+        'url' => '/publicaciones/editar',
+        'methods' => ['POST'],
+        'controller' => 'publicacion',
+        'action' => 'update',
+    ],
+    [
+        'url' => '/publicaciones/borrar',
+        'methods' => ['POST'],
+        'controller' => 'publicacion',
+        'action' => 'remove',
+    ],
+    [
+        'url' => '/publicaciones/inactivar',
+        'methods' => ['POST'],
+        'controller' => 'publicacion',
+        'action' => 'inactivate',
+    ],
+    [
+        'url' => '/animales/inactivar',
+        'methods' => ['POST'],
+        'controller' => 'animal',
+        'action' => 'inactivate',
     ],
 ];
 

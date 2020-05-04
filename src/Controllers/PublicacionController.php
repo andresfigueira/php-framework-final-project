@@ -4,7 +4,9 @@ namespace Controllers;
 
 use Core\Redirect;
 use Core\Response;
+use Helpers\GeneralHelper;
 use Repository\AnimalRepository;
+use Repository\EstadoRepository;
 use Repository\ProvinciaRepository;
 use Repository\PublicacionRepository;
 
@@ -16,9 +18,20 @@ class PublicacionController extends SecurityController
     {
         $busqueda = $_GET['busqueda'] ? $_GET['busqueda'] : '';
 
-        $publicaciones = PublicacionRepository::findByBusqueda($busqueda);
+        $publicaciones = PublicacionRepository::findActivesByBusqueda($busqueda);
 
         return new Response('publicacion/publicacion.index.php', ['publicaciones' => $publicaciones]);
+    }
+
+    public function updateView()
+    {
+        $provinciaOptions = ProvinciaRepository::findAll();
+        $estadoOptions = EstadoRepository::findAll();
+
+        return new Response('publicacion/publicacion.edit.php', [
+            'provinciaOptions' => $provinciaOptions,
+            'estadoOptions' => $estadoOptions,
+        ]);
     }
 
     public function create()
@@ -67,12 +80,95 @@ class PublicacionController extends SecurityController
 
     public function createView()
     {
-        $userAnimalOptions = AnimalRepository::findByUserId($_SESSION['user']['id']);
+        $userAnimalOptions = AnimalRepository::findActivesByUserId($_SESSION['user']['id']);
         $provinciaOptions = ProvinciaRepository::findAll();
 
         return new Response('publicacion/publicacion.create.php', [
             'animalOptions' => $userAnimalOptions,
             'provinciaOptions' => $provinciaOptions,
         ]);
+    }
+
+    public function update()
+    {
+        $publicacionId = $_POST['publicacion_id'];
+        
+
+        // Validación
+        $titulo = $_POST['titulo'];
+        $descripcion = GeneralHelper::emptyToNull($_POST['descripcion']);
+        $referencia = GeneralHelper::emptyToNull($_POST['referencia']);
+        $direccion = GeneralHelper::emptyToNull($_POST['direccion']);        
+        $estadoId = $_POST['estado_id'];
+        $provinciaId = GeneralHelper::emptyToNull($_POST['provincia_id']);
+        $params = [
+            'titulo' => $titulo,
+            'descripcion' => $descripcion,
+            'referencia' => $referencia,
+            'direccion' => $direccion,
+            'estado_id' => $estadoId,
+            'provincia_id' => $provinciaId,
+        ];
+        $constraints = [
+            'titulo' => [
+                'required' => true,
+            ],
+            'estado_id' => [
+                'required' => true,
+            ],
+        ];
+
+        $validation = $this->validateParams($params, $constraints);
+
+
+        // Validación incorrecta
+        if (!$validation['valid']) {
+            $responseError = [
+                'errors' => $validation['errors'],
+                'params' => $params,
+            ];
+
+            return new Response('usuario/usuario.edit.php', ['responseError' => $responseError]);
+        }
+
+        PublicacionRepository::update(
+            $publicacionId,
+            $titulo,
+            $descripcion,
+            $referencia,
+            $direccion,
+            $estadoId,
+            $provinciaId,
+        );
+
+        $newPublicacion = PublicacionRepository::findById($publicacionId);
+
+        $publicacionId = $newPublicacion;
+        
+        return new Redirect('/');
+    }
+
+    public function remove()
+    {
+        $publicacionId = $_POST['publicacion_id'];
+
+        PublicacionRepository::remove(
+            $publicacionId,
+        );
+
+        return new Redirect('/');
+    }
+
+    public function inactivate()
+    {
+        $estado = 'Inactivo';
+        $publicacionId = $_POST['publicacion_id'];
+
+        PublicacionRepository::changeStatus(
+            $estado,
+            $publicacionId,
+        );
+
+        return new Redirect('/');
     }
 }

@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Core\Response;
+use Exception;
 use Helpers\GeneralHelper;
 use Repository\AnimalRepository;
 use Repository\ImagenRepository;
@@ -17,8 +18,8 @@ class UserController extends SecurityController
     public function profile()
     {
         $id = $_SESSION['user']['id'];
-        $publicaciones = PublicacionRepository::findByUserId($id);
-        $animales = AnimalRepository::findByUserId($id);
+        $publicaciones = PublicacionRepository::findActivesByUserId($id);
+        $animales = AnimalRepository::findActivesByUserId($id);
 
         return new Response('usuario/usuario.profile.php', [
             'publicaciones' => $publicaciones,
@@ -38,12 +39,17 @@ class UserController extends SecurityController
     public function update()
     {
         $userId = $_SESSION['user']['id'];
-        $currentUser = UserRepository::findById($userId);
 
         $imagen = GeneralHelper::emptyToNull($_POST['imagen']);
         $imagenId = GeneralHelper::emptyToNull($_POST['imagen_id']);
-        if ($imagen != $currentUser['imagen'] && $imagen) {
-            $imagenId = ImagenRepository::create($imagen);
+
+        if ($imagen) {
+            $imagenBBDD = ImagenRepository::findByUrl($imagen);
+            if ($imagenBBDD) {
+                $imagenId = $imagenBBDD['id'];
+            } else {
+                $imagenId = ImagenRepository::create($imagen);
+            }
         }
 
         // Validación
@@ -62,7 +68,6 @@ class UserController extends SecurityController
             'telefono_1' => $telefono1,
             'telefono_2' => $telefono2,
             'provincia_id' => $provinciaId,
-            'imagen_id' => $imagenId,
         ];
         $constraints = [
             'nombre' => [
